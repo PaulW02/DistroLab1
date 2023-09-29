@@ -4,8 +4,8 @@ import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "api", value = "/api")
+public class HttpServlet extends javax.servlet.http.HttpServlet {
     private String message;
 
     public void init() {
