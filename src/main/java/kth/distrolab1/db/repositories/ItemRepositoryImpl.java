@@ -8,11 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
-public class ItemDB {
+public class ItemRepositoryImpl {
 
     public static List<Item> searchItems(String item){
         ArrayList<Item> items = new ArrayList<>();
@@ -26,7 +24,8 @@ public class ItemDB {
                 int i = rs.getInt("id");
                 String name = rs.getString("name");
                 String desc = rs.getString("description");
-                items.add(new Item(i, name, desc));
+                int stock = rs.getInt("stock");
+                items.add(new Item(i, name, desc, stock));
             }
         } catch (SQLException e){
             e.printStackTrace();

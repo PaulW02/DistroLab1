@@ -1,20 +1,20 @@
-package kth.distrolab1;
+package kth.distrolab1.bo.servlets;
 
 import java.io.*;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "api", value = "/api")
-public class HttpServlet extends javax.servlet.http.HttpServlet {
+public class UserServlet extends javax.servlet.http.HttpServlet {
     private String message;
 
     public void init() {
-        message = "Hello World!";
+        message = "Hell World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
