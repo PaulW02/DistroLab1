@@ -6,10 +6,9 @@ public class Item {
 
     private String desc;
     private int price;
-    private int stock;
+    private int quantity;
 
-
-    public Item(int id, String name, String desc) {
+    public Item(int id, String itemName, String desc, int price, int quantity) {
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -47,11 +46,11 @@ public class Item {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

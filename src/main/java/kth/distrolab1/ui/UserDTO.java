@@ -1,5 +1,7 @@
 package kth.distrolab1.ui;
 
+import java.util.List;
+
 public class UserDTO {
 
     private String username;
@@ -7,10 +9,13 @@ public class UserDTO {
 
     private String fullname;
 
-    public UserDTO(String username, String email, String fullname) {
+    private List<String> roles;
+
+    public UserDTO(String username, String email, String fullname, List<String> roles) {
         this.username = username;
         this.email = email;
         this.fullname = fullname;
+        this.roles = roles;
     }
 
     public String getUsername() {
@@ -35,5 +40,13 @@ public class UserDTO {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

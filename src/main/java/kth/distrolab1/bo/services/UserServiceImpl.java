@@ -1,6 +1,5 @@
 package kth.distrolab1.bo.services;
 
-import kth.distrolab1.bo.entities.Role;
 import kth.distrolab1.bo.entities.User;
 import kth.distrolab1.db.repositories.UserRepository;
 import kth.distrolab1.db.repositories.UserRepositoryImpl;
@@ -21,8 +20,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User createUser(String username, String password, String fullname, String email, Date registrationDate, List<Role> roles) {
+    public User createUser(String username, String password, String fullname, String email, Date registrationDate, List<String> roles) {
         String encryptedPassword = encrypt(password);
+        if (roles.isEmpty()){
+            roles.add("role_user");
+        }
         return userRepository.createUser(username,encryptedPassword,fullname,email,registrationDate, roles);
     }
 

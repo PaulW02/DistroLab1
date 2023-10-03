@@ -2,22 +2,42 @@ package kth.distrolab1.ui;
 
 public class ItemDTO {
 
-    private String name;
+    private int id;
+    private String itemName;
+    private String desc;
     private int price;
-    private int stock;
+    private int quantity;
 
-    public ItemDTO(String name, int price, int stock) {
-        this.name = name;
+    public ItemDTO(int id, String itemName, String desc, int price, int quantity) {
+        this.id = id;
+        this.itemName = itemName;
+        this.desc = desc;
         this.price = price;
-        this.stock = stock;
+        this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getPrice() {
@@ -28,11 +48,11 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

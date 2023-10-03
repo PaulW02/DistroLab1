@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @WebServlet(name = "session", value = "/session/*")
@@ -26,19 +29,26 @@ public class SessionServlet extends HttpServlet {
             UserDTO userDTO = userHandler.login(request.getParameter("uname"), request.getParameter("pass"));
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);
-                session.setAttribute("fullname", userDTO.getFullname());
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/index.jsp");
+                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
             }else{
                 String errorMessage = "Invalid username or password";
                 request.setAttribute("errorMessage", errorMessage);
                 response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/login.jsp");
             }
         } else if (pathInfo.equals("/register")) {
-            UserDTO userDTO = userHandler.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"));
+            UserDTO userDTO;
+            if (request.getParameter("selectedRoles") != null){
+                String rolesParam = request.getParameter("selectedRoles");
+                String[] selectedRoles = rolesParam.split(",");
+                List<String> rolesList = Arrays.asList(selectedRoles);
+                userDTO = userHandler.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), rolesList);
+            }else{
+                userDTO = userHandler.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), new ArrayList<>());
+            }
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);
                 session.setAttribute("fullname", userDTO.getFullname());
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/index.jsp");
+                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
             }else{
                 String errorMessage = "Invalid username or password";
                 request.setAttribute("errorMessage", errorMessage);
@@ -47,7 +57,7 @@ public class SessionServlet extends HttpServlet {
         }else if (pathInfo.equals("/logout")) {
             // Stäng av sessionen och logga ut användaren
             session.invalidate();
-            response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/index.jsp"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
+            response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
         }
     }
 

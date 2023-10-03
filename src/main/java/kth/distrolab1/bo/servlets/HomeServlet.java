@@ -14,47 +14,35 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "item", value = "/item/*")
-public class ItemServlet extends HttpServlet {
+@WebServlet(name = "home", value = {"", "/"})
+public class HomeServlet extends HttpServlet {
 
     private ItemHandler itemHandler = new ItemHandler();
     public void init() {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/create")){
-            ItemDTO itemDTO = itemHandler.createItem(request.getParameter("itemName"), request.getParameter("desc"), Integer.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")));
-            if (itemDTO != null){
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/adminPanel.jsp");
-            }else{
-                String errorMessage = "Could not create item!";
-                request.setAttribute("errorMessage", errorMessage);
-                //response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/login.jsp");
-            }
-        }
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/all")){
+        if (pathInfo.equals("/")){
             List<ItemDTO> items = itemHandler.getAllItems();
             if (items != null){
                 request.setAttribute("items", items);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("../../../webapp/index.jsp");
-                requestDispatcher.forward(request, response);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                dispatcher.forward(request, response);
                 //response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/index.jsp");
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
                 //response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/login.jsp");
             }
-        }else if (pathInfo != null) {
-            // Extract the product ID using a regular expression
-            // This regex captures a sequence of one or more digits
-            String id = pathInfo.replaceAll(".*/(\\d+)", "$1");
+        }else if (pathInfo != null && pathInfo.startsWith("/product/")) {
+            // Extract the product ID from the pathInfo
+            String id = pathInfo.substring("/product/".length());
 
             // Check if id is a valid integer (you can add more validation as needed)
             if (id.matches("\\d+")) {
@@ -70,15 +58,12 @@ public class ItemServlet extends HttpServlet {
                     String errorMessage = "Could not find the specified item!";
                     request.setAttribute("errorMessage", errorMessage);
                     // Handle the error or redirect as needed
-                    response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
-
                 }
             } else {
                 // Handle the case where the ID is not a valid integer
                 String errorMessage = "Invalid product ID!";
                 request.setAttribute("errorMessage", errorMessage);
                 // Handle the error or redirect as needed
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
             }
         }
     }

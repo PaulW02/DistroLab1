@@ -6,4 +6,10 @@ import java.util.List;
 
 public interface ItemService {
     List<Item> searchItems(String item);
+
+    Item createItem(String itemName, String desc, int price, int quantity);
+
+    List<Item> getAllItems();
+
+    Item getItemById(int itemId);
 }

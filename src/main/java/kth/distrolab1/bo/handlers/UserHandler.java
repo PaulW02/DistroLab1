@@ -23,20 +23,19 @@ public class UserHandler {
         if (username != null && password != null) {
             User user = userService.login(username, password);
             if (user != null) {
-                return new UserDTO(user.getUsername(), user.getEmail(), user.getFullName());
+                return new UserDTO(user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
             }
         }
         return null;
     }
 
-    public UserDTO createUser(String username, String password, String email, String fullname){
+    public UserDTO createUser(String username, String password, String email, String fullname, List<String> roles){
         Date registrationDate = new Date();
-        User user = null;
+        User user;
         if (username != null && password != null  && email != null && fullname != null && registrationDate != null){
-            List<Role> roles = new ArrayList<>();
             user = userService.createUser(username, password, email, fullname, registrationDate, roles);
             if (user != null){
-                return new UserDTO(user.getUsername(), user.getEmail(), user.getFullName());
+                return new UserDTO(user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
             }
         }
         return null;

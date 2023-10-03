@@ -9,5 +9,6 @@ import java.util.List;
 public interface UserRepository {
 
     User findByUsernameAndPassword(String username, String password);
-    User createUser(String username, String password, String email, String fullname, java.util.Date registrationDate, List<Role> roles);
+    User createUser(String username, String password, String email, String fullname, Date registrationDate, List<String> roles);
+    Role findRoleByRoleName(String roleName);
 }

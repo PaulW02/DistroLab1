@@ -11,13 +11,14 @@ public class User {
     private String fullName;
     private Date registrationDate;
     private List<String> roles;
-    public User(int id, String username, String password, String email, String fullName, Date registrationDate) {
+    public User(int id, String username, String password, String email, String fullName, Date registrationDate, List<String> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.fullName = fullName;
         this.registrationDate = registrationDate;
+        this.roles = roles;
     }
 
 
