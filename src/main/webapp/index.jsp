@@ -69,22 +69,10 @@
             }
         </style>
         <%UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");%>
-        <% if (userDTO != null && userDTO.getRoles() != null && userDTO.getRoles().contains("role_admin")) {%>
-        <a href="adminPanel.jsp">Only For Admins</a>
 
-        <%}%>
-        <% if (userDTO == null) {%>
-        <a href="login.jsp">Login</a>
-        <a href="registerUser.jsp">Register</a>
-        <%} else{%>
-        <!-- Log out button -->
-        <form action="session/logout" method="post">
-            <input type="submit" value="Log Out">
-        </form>
-        <%}%>
     </head>
-    <body>
 
+    <jsp:include page="header.jsp" />
 
         <h1>
             Welcome <% if (userDTO != null && userDTO.getFullname() != null){ %> <%= userDTO.getFullname() %> <% } else { %> stranger <%}%>

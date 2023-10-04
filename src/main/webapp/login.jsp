@@ -4,7 +4,8 @@
 <head>
     <title>Login</title>
 </head>
-<body>
+<jsp:include page="header.jsp" />
+<br/>
 <%
     String userid = request.getParameter("uname");
     String pwd = request.getParameter("pass");

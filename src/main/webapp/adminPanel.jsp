@@ -4,7 +4,7 @@
 <head>
     <title>Register</title>
 </head>
-<body>
+<jsp:include page="header.jsp" />
 <h1>Register User</h1>
 <form method="post" action="session/register" onsubmit="prepareRoles()">
     <table>

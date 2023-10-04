@@ -59,25 +59,10 @@
                 margin-right: 20px; /* Add margin for spacing between boxes */
             }
         </style>
-        <%UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");%>
-        <% if (userDTO != null && userDTO.getRoles() != null && userDTO.getRoles().contains("role_admin")) {%>
-        <a href="adminPanel.jsp">Only For Admins</a>
 
-        <%}%>
-        <% if (userDTO == null) {%>
-        <a href="login.jsp">Login</a>
-        <a href="registerUser.jsp">Register</a>
-        <%} else{%>
-        <!-- Log out button -->
-        <form action="session/logout" method="post">
-            <input type="submit" value="Log Out">
-        </form>
-        <%}%>
     </head>
-    <body>
-        <br/>
-
-
+    <jsp:include page="header.jsp" />
+    <br/>
         <%  ItemDTO item = (ItemDTO) request.getAttribute("item");
             if (item != null) {%>
         <!-- Container for each item -->

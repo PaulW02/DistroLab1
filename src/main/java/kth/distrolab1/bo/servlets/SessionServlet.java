@@ -54,21 +54,16 @@ public class SessionServlet extends HttpServlet {
                 request.setAttribute("errorMessage", errorMessage);
                 request.getRequestDispatcher("http://localhost:8080/DistroLab1_war_exploded/login.jsp").forward(request, response);
             }
-        }else if (pathInfo.equals("/logout")) {
-            // Stäng av sessionen och logga ut användaren
-            session.invalidate();
-            response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
         }
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String name = request.getParameter("Name");
-        String pass = request.getParameter("Password");
-        if (name != null && pass != null){
-            session.setAttribute("Name", name);
-            session.setAttribute("Password", pass);
-            response.sendRedirect("index.jsp");
+        String pathInfo = request.getPathInfo();
+        if (pathInfo.equals("/logout")) {
+            // Stäng av sessionen och logga ut användaren
+            session.invalidate();
+            response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
         }
 
     }
