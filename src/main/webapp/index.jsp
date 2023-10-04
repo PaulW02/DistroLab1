@@ -1,15 +1,14 @@
-<%@ page import="kth.distrolab1.ui.UserDTO" %>
-<%@ page import="kth.distrolab1.ui.ItemDTO" %>
+<%@ page import="kth.distrolab1.ui.dtos.UserDTO" %>
+<%@ page import="kth.distrolab1.ui.dtos.ItemDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="kth.distrolab1.bo.servlets.ItemServlet" %>
+<%@ page import="kth.distrolab1.ui.servlets.ItemServlet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>JSP - Hello World</title>
         <style>
+
 
             /* Style for individual item boxes */
             .item-container {
@@ -46,9 +45,8 @@
         <% if (request.getAttribute("items") != null) {%>
         <%List<ItemDTO> items = ((List<ItemDTO>) request.getAttribute("items"));%>
         <%for (ItemDTO item : items) {%>
-
         <!-- Container for each item -->
-        <form action="shoppingbag/add" method="post">
+        <form action="/shoppingbag/add" method="post">
             <input type="hidden" name="itemId" value="<%= item.getId() %>">
             <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
             <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">

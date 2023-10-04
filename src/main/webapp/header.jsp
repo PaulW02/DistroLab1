@@ -1,5 +1,5 @@
-<%@ page import="kth.distrolab1.ui.UserDTO" %>
-<%@ page import="kth.distrolab1.ui.ItemDTO" %>
+<%@ page import="kth.distrolab1.ui.dtos.UserDTO" %>
+<%@ page import="kth.distrolab1.ui.dtos.ItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -126,8 +126,8 @@
     <img src="C:\Users\paula\Desktop\KTH\Distribuerade system\DistroLab1\DistroLab1\src\main\webapp\resources\Innovania-2.png" alt="Your Logo">
     <nav>
         <ul>
-            <li><a href="http://localhost:8080/DistroLab1_war_exploded/">Home</a></li>
-            <li><a href="http://localhost:8080/DistroLab1_war_exploded/">Products</a></li>
+            <li><a href="http://localhost:8080/">Home</a></li>
+            <li><a href="http://localhost:8080/item/all">Products</a></li>
         </ul>
     </nav>
     <div>

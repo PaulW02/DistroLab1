@@ -4,13 +4,15 @@ public class Item {
     private int id;
     private String itemName;
     private String desc;
+    private String category;
     private int price;
     private int quantity;
 
-    public Item(int id, String itemName, String desc, int price, int quantity) {
+    public Item(int id, String itemName, String desc, String category, int price, int quantity) {
         this.id = id;
         this.itemName = itemName;
         this.desc = desc;
+        this.category = category;
         this.price = price;
         this.quantity = quantity;
     }
@@ -37,6 +39,14 @@ public class Item {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getPrice() {

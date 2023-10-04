@@ -1,4 +1,4 @@
-package kth.distrolab1.ui;
+package kth.distrolab1.ui.dtos;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package kth.distrolab1.ui;
+package kth.distrolab1.ui.dtos;
 
 public class ItemDTO {
 
@@ -8,7 +8,7 @@ public class ItemDTO {
     private int price;
     private int quantity;
 
-    public ItemDTO(int id, String itemName, String desc, int price, int quantity) {
+    public ItemDTO(int id, String itemName, String desc, String category, int price, int quantity) {
         this.id = id;
         this.itemName = itemName;
         this.desc = desc;

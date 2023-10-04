@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ItemRepository {
     List<Item> searchItems(String itemName);
-    Item createItem(String itemName, String description, int price, int quantity);
+    Item createItem(String itemName, String description, String category, int price, int quantity);
     List<Item> findAllItems();
     Item findItemById(int id);
 }

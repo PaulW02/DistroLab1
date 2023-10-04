@@ -1,4 +1,4 @@
-package kth.distrolab1.bo.servlets;
+package kth.distrolab1.ui.servlets;
 
 import java.io.*;
 import javax.servlet.*;

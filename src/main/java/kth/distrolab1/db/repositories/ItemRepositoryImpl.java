@@ -22,9 +22,10 @@ public class ItemRepositoryImpl implements ItemRepository {
                 int i = rs.getInt("id");
                 String name = rs.getString("name");
                 String desc = rs.getString("description");
+                String category = rs.getString("category");
                 int price = rs.getInt("price");
                 int quantity = rs.getInt("quantity");
-                items.add(new Item(i, name, desc, price, quantity));
+                items.add(new Item(i, name, desc, category, price, quantity));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,14 +34,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Item createItem(String itemName, String description, int price, int quantity) {
+    public Item createItem(String itemName, String description, String category, int price, int quantity) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet generatedKeys;
         try {
             connection = DBManager.getConnection();
 
-            String sql = "INSERT INTO items (item_name, description, price, quantity) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO items (item_name, description, category, price, quantity) VALUES (?, ?, ?, ?, ?)";
 
             // Create a PreparedStatement with the SQL query
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -49,8 +50,9 @@ public class ItemRepositoryImpl implements ItemRepository {
             // laceholders in the query
             preparedStatement.setString(1, itemName);
             preparedStatement.setString(2, description);
-            preparedStatement.setInt(3, price);
-            preparedStatement.setInt(4, quantity);
+            preparedStatement.setString(3, category);
+            preparedStatement.setInt(4, price);
+            preparedStatement.setInt(5, quantity);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected <= 0) {
@@ -67,7 +69,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
 
             // User was successfully created with assigned roles
-            return new Item(itemId, itemName, description, price, quantity);
+            return new Item(itemId, itemName, description, category, price, quantity);
         } catch (SQLException e) {
             e.printStackTrace(); // Handle any SQL errors
             throw new RuntimeException(e);
@@ -99,11 +101,12 @@ public class ItemRepositoryImpl implements ItemRepository {
                 int itemId = resultSet.getInt("id"); // Assuming the ID column is named "id"
                 String itemName = resultSet.getString("item_name");
                 String description = resultSet.getString("description");
+                String category = resultSet.getString("category");
                 int price = resultSet.getInt("price");
                 int quantity = resultSet.getInt("quantity");
 
                 // Create an Item object for each row and add it to the itemList
-                Item item = new Item(itemId, itemName, description, price, quantity);
+                Item item = new Item(itemId, itemName, description, category, price, quantity);
                 itemList.add(item);
             }
 
@@ -152,11 +155,12 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (resultSet.next()) {
                 String itemName = resultSet.getString("item_name");
                 String description = resultSet.getString("description");
+                String category = resultSet.getString("category");
                 int price = resultSet.getInt("price");
                 int quantity = resultSet.getInt("quantity");
 
                 // Skapa ett Item-objekt med de hämtade uppgifterna
-                return new Item(itemId, itemName, description, price, quantity);
+                return new Item(itemId, itemName, description, category, price, quantity);
             }else{
                 return null;
             }

@@ -1,8 +1,7 @@
-package kth.distrolab1.bo.servlets;
+package kth.distrolab1.ui.servlets;
 import kth.distrolab1.bo.handlers.ItemHandler;
-import kth.distrolab1.ui.ItemDTO;
+import kth.distrolab1.ui.dtos.ItemDTO;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,20 +38,19 @@ public class ShoppingBagServlet extends HttpServlet{
             int itemId = Integer.valueOf(request.getParameter("itemId"));
             String itemName = request.getParameter("itemName");
             String itemDesc = request.getParameter("itemDesc");
+            String itemCategory = request.getParameter("itemCategory");
             int itemPrice = Integer.valueOf(request.getParameter("itemPrice"));
             int itemQuantity = Integer.valueOf(request.getParameter("itemQuantity"));
+
             if (shoppingBag == null) {
                 shoppingBag = new ArrayList<>();
             }
 
-            shoppingBag.add(new ItemDTO(itemId, itemName, itemDesc, itemPrice, itemQuantity));
+            shoppingBag.add(new ItemDTO(itemId, itemName, itemDesc, itemCategory, itemPrice, itemQuantity));
             session.setAttribute("shoppingBag", shoppingBag);
             // Get the current URL and remove the last part (the "/add" portion)
-            String currentURL = request.getRequestURL().toString();
-            String newURL = currentURL.substring(0, currentURL.lastIndexOf('/'));
-            newURL = currentURL.substring(0, newURL.lastIndexOf('/'));
 
-            response.sendRedirect(newURL);
+            response.sendRedirect(request.getHeader("Referer"));
         }else if(pathInfo.equals("/remove")){
             List<ItemDTO> shoppingBag = (List<ItemDTO>) session.getAttribute("shoppingBag");
             int itemId = Integer.valueOf(request.getParameter("itemId"));

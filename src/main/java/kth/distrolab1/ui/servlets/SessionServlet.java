@@ -1,7 +1,7 @@
-package kth.distrolab1.bo.servlets;
+package kth.distrolab1.ui.servlets;
 
 import kth.distrolab1.bo.handlers.UserHandler;
-import kth.distrolab1.ui.UserDTO;
+import kth.distrolab1.ui.dtos.UserDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,11 +27,11 @@ public class SessionServlet extends HttpServlet {
             UserDTO userDTO = userHandler.login(request.getParameter("uname"), request.getParameter("pass"));
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
+                response.sendRedirect("http://localhost:8080/");
             }else{
                 String errorMessage = "Invalid username or password";
                 request.setAttribute("errorMessage", errorMessage);
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/login.jsp");
+                response.sendRedirect("http://localhost:8080/login.jsp");
             }
         } else if (pathInfo.equals("/register")) {
             UserDTO userDTO;
@@ -48,11 +46,10 @@ public class SessionServlet extends HttpServlet {
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);
                 session.setAttribute("fullname", userDTO.getFullname());
-                response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/");
+                response.sendRedirect("http://localhost:8080/");
             }else{
                 String errorMessage = "Invalid username or password";
                 request.setAttribute("errorMessage", errorMessage);
-                request.getRequestDispatcher("http://localhost:8080/DistroLab1_war_exploded/login.jsp").forward(request, response);
             }
         }
     }
@@ -63,7 +60,7 @@ public class SessionServlet extends HttpServlet {
         if (pathInfo.equals("/logout")) {
             // Stäng av sessionen och logga ut användaren
             session.invalidate();
-            response.sendRedirect("http://localhost:8080/DistroLab1_war_exploded/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
+            response.sendRedirect("http://localhost:8080/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
         }
 
     }

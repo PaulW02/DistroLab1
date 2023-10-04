@@ -1,18 +1,10 @@
 package kth.distrolab1.bo.handlers;
 
-import kth.distrolab1.bo.entities.Role;
 import kth.distrolab1.bo.entities.User;
 import kth.distrolab1.bo.services.UserService;
 import kth.distrolab1.bo.services.UserServiceImpl;
-import kth.distrolab1.ui.UserDTO;
+import kth.distrolab1.ui.dtos.UserDTO;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.sql.rowset.serial.SerialException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

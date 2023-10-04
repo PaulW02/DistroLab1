@@ -7,7 +7,7 @@ import java.util.List;
 public interface ItemService {
     List<Item> searchItems(String item);
 
-    Item createItem(String itemName, String desc, int price, int quantity);
+    Item createItem(String itemName, String desc, String category, int price, int quantity);
 
     List<Item> getAllItems();
 
