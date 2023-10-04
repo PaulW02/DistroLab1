@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListResourceBundle;
 
 @WebServlet(name = "shopping_bag", value = "/shoppingbag/*")
 public class ShoppingBagServlet extends HttpServlet{
@@ -24,7 +25,6 @@ public class ShoppingBagServlet extends HttpServlet{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         List<ItemDTO> shoppingBag = (List<ItemDTO>) session.getAttribute("shoppingBag");
-
 
         request.setAttribute("shoppingBag", shoppingBag);
         request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -44,6 +44,7 @@ public class ShoppingBagServlet extends HttpServlet{
             if (shoppingBag == null) {
                 shoppingBag = new ArrayList<>();
             }
+
             shoppingBag.add(new ItemDTO(itemId, itemName, itemDesc, itemPrice, itemQuantity));
             session.setAttribute("shoppingBag", shoppingBag);
             // Get the current URL and remove the last part (the "/add" portion)
@@ -52,9 +53,29 @@ public class ShoppingBagServlet extends HttpServlet{
             newURL = currentURL.substring(0, newURL.lastIndexOf('/'));
 
             response.sendRedirect(newURL);
+        }else if(pathInfo.equals("/remove")){
+            List<ItemDTO> shoppingBag = (List<ItemDTO>) session.getAttribute("shoppingBag");
+            int itemId = Integer.valueOf(request.getParameter("itemId"));
+
+            // Hitta och ta bort den befintliga varan från shoppingbagen baserat på itemId
+            ItemDTO itemToRemove = null;
+            for (ItemDTO item : shoppingBag) {
+                if (item.getId() == itemId) {
+                    itemToRemove = item;
+                    break; // Hittade matchande objekt, avsluta loopen
+                }
+            }
+
+            if (itemToRemove != null) {
+                shoppingBag.remove(itemToRemove);
+                session.setAttribute("shoppingBag", shoppingBag);
+            }
+
+            String currentURL = request.getRequestURL().toString();
+            String newURL = currentURL.substring(0, currentURL.lastIndexOf('/'));
+            newURL = currentURL.substring(0, newURL.lastIndexOf('/'));
+            response.sendRedirect(newURL);
         }
-
-
     }
 
 }
