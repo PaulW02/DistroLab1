@@ -31,6 +31,7 @@
         <div class="item-container">
             <div class="item-name"><%= item.getItemName() %></div>
             <div class="item-description"><%= item.getDesc() %></div>
+            <div class="item-category"><%= item.getCategory() %></div>
             <div class="item-price">Price: <%= item.getPrice() %> kr</div>
             <div class="item-quantity">antal: <%= item.getQuantity() %></div>
         </div>

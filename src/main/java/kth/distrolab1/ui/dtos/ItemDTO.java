@@ -8,12 +8,15 @@ public class ItemDTO {
     private int price;
     private int quantity;
 
+    private String category;
+
     public ItemDTO(int id, String itemName, String desc, String category, int price, int quantity) {
         this.id = id;
         this.itemName = itemName;
         this.desc = desc;
         this.price = price;
         this.quantity = quantity;
+        this.category = category;
     }
 
     public int getId() {
@@ -55,4 +58,8 @@ public class ItemDTO {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public String getCategory() {return category;}
+
+    public void setCategory(String category) {this.category = category;}
 }

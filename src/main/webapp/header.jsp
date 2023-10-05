@@ -150,10 +150,11 @@
         <% if (session.getAttribute("shoppingBag") != null){
             for (ItemDTO item : ((List<ItemDTO>) session.getAttribute("shoppingBag"))) { %>
 
-        <form action="shoppingbag/remove" method="post">
+        <form action="/shoppingbag/remove" method="post">
             <input type="hidden" name="itemId" value="<%= item.getId() %>">
             <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
             <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">
+            <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
             <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
             <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
 

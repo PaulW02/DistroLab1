@@ -24,6 +24,7 @@
             <td>Full Name:</td>
             <td><input type="text" name="fullname" /></td>
         </tr>
+
         <tr>
             <td>Roles:</td>
             <td>
@@ -43,6 +44,14 @@
 
 <h1>Add item</h1>
 <form action="item/create" method="post">
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="Clothes">Clothes</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Food">Food</option>
+    </select>
+    <br><br>
+
     <label for="itemName">Item Name:</label>
     <input type="text" id="itemName" name="itemName" required>
     <br><br>

@@ -50,16 +50,17 @@
             <input type="hidden" name="itemId" value="<%= item.getId() %>">
             <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
             <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">
+            <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
             <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
             <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
             <div class="item-container">
                 <div class="item-name"><a href="item/<%= item.getId() %>"><%= item.getItemName() %></a></div>
                 <div class="item-description"><%= item.getDesc() %></div>
+                <div class="item-category"><%= item.getCategory() %></div>
                 <div class="item-price">Price: <%= item.getPrice() %> kr</div>
                 <input type="submit" class="add-to-basket-button" value="Add to Basket">
             </div>
         </form>
-
         <% }
         } %>
 

@@ -68,11 +68,7 @@ public class ShoppingBagServlet extends HttpServlet{
                 shoppingBag.remove(itemToRemove);
                 session.setAttribute("shoppingBag", shoppingBag);
             }
-
-            String currentURL = request.getRequestURL().toString();
-            String newURL = currentURL.substring(0, currentURL.lastIndexOf('/'));
-            newURL = currentURL.substring(0, newURL.lastIndexOf('/'));
-            response.sendRedirect(newURL);
+            response.sendRedirect(request.getHeader("Referer"));
         }
     }
 
