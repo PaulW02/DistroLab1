@@ -160,13 +160,32 @@
 
             <div class="shopping-bag-item">
                 <div class="remove-item-button" data-item-id="<%= item.getId() %>">X</div>
-            <%=item.getItemName()%>
-            <%=item.getPrice()%> kr
-            <input type="submit" class="remove-item-button" value="X">
-        </div>
+                <%=item.getItemName()%>
+                <%=item.getPrice()%> kr
+                <input type="submit" class="remove-item-button" value="X">
+            </div>
         </form>
         <% }
         } %>
+        <%
+            double totalPrice = 0.0; // Initialize the total price to 0.0
+            if (session.getAttribute("shoppingBag") != null) {
+                List<ItemDTO> shoppingBag = (List<ItemDTO>) session.getAttribute("shoppingBag");
+                for (ItemDTO item : shoppingBag) {
+                    totalPrice += item.getPrice(); // Add each item's price to the total
+                }
+            }
+        %>
+        <!-- Display total price -->
+        <div class="total-price">
+            Total Price: <%= String.format("%.2f kr", totalPrice) %>
+
+        </div>
+        <!-- Checkout button -->
+        <form action="/order/purchase" method="post"> <!-- Change the action attribute to your actual checkout endpoint -->
+            <input type="submit" class="btn" value="Purchase">
+        </form>
+
     </div>
 
     <script>

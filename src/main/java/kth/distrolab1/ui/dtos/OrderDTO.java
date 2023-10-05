@@ -1,34 +1,32 @@
-package kth.distrolab1.bo.entities;
+package kth.distrolab1.ui.dtos;
 
 import java.util.Date;
 import java.util.List;
 
-public class Transaction {
-
-    private int transactionId;
+public class OrderDTO {
+    private int orderId;
     private int userId;
     private Date purchaseDate;
     private double amount;
-    private List<TransactionItem> itemsBought;
+    private List<OrderItemDTO> itemsBought;
 
-    public Transaction(int transactionId, int userId, Date purchaseDate, double amount, List<TransactionItem> itemsBought) {
-        this.transactionId = transactionId;
+    public OrderDTO(int orderId, int userId, Date purchaseDate, double amount, List<OrderItemDTO> itemsBought) {
+        this.orderId = orderId;
         this.userId = userId;
         this.purchaseDate = purchaseDate;
         this.amount = amount;
         this.itemsBought = itemsBought;
     }
 
-    public Transaction() {
-
+    public OrderDTO() {
     }
 
-    public int getTransactionId() {
-        return transactionId;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getUserId() {
@@ -55,11 +53,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public List<TransactionItem> getItemsBought() {
+    public List<OrderItemDTO> getItemsBought() {
         return itemsBought;
     }
 
-    public void setItemsBought(List<TransactionItem> itemsBought) {
+    public void setItemsBought(List<OrderItemDTO> itemsBought) {
         this.itemsBought = itemsBought;
     }
 }

@@ -10,7 +10,7 @@ import kth.distrolab1.ui.dtos.ItemDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemController extends UserServlet {
+public class ItemController {
 
     private ItemService itemService = new ItemServiceImpl();
 
