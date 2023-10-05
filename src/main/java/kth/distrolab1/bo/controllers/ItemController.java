@@ -1,4 +1,4 @@
-package kth.distrolab1.bo.handlers;
+package kth.distrolab1.bo.controllers;
 
 
 import kth.distrolab1.bo.entities.Item;
@@ -10,7 +10,7 @@ import kth.distrolab1.ui.dtos.ItemDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemHandler extends UserServlet {
+public class ItemController extends UserServlet {
 
     private ItemService itemService = new ItemServiceImpl();
 

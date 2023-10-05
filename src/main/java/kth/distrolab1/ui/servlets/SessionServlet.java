@@ -1,6 +1,6 @@
 package kth.distrolab1.ui.servlets;
 
-import kth.distrolab1.bo.handlers.UserHandler;
+import kth.distrolab1.bo.controllers.UserController;
 import kth.distrolab1.ui.dtos.UserDTO;
 
 import javax.servlet.ServletException;
@@ -18,13 +18,13 @@ import java.util.List;
 @WebServlet(name = "session", value = "/session/*")
 public class SessionServlet extends HttpServlet {
 
-    private UserHandler userHandler = new UserHandler();
+    private UserController userController = new UserController();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/login")){
-            UserDTO userDTO = userHandler.login(request.getParameter("uname"), request.getParameter("pass"));
+            UserDTO userDTO = userController.login(request.getParameter("uname"), request.getParameter("pass"));
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);
                 response.sendRedirect("http://localhost:8080/");
@@ -39,9 +39,9 @@ public class SessionServlet extends HttpServlet {
                 String rolesParam = request.getParameter("selectedRoles");
                 String[] selectedRoles = rolesParam.split(",");
                 List<String> rolesList = Arrays.asList(selectedRoles);
-                userDTO = userHandler.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), rolesList);
+                userDTO = userController.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), rolesList);
             }else{
-                userDTO = userHandler.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), new ArrayList<>());
+                userDTO = userController.createUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("fullname"), new ArrayList<>());
             }
             if (userDTO != null){
                 session.setAttribute("userDTO", userDTO);

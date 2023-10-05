@@ -1,6 +1,6 @@
 package kth.distrolab1.ui.servlets;
 
-import kth.distrolab1.bo.handlers.ItemHandler;
+import kth.distrolab1.bo.controllers.ItemController;
 import kth.distrolab1.ui.dtos.ItemDTO;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +17,7 @@ import java.util.List;
 @WebServlet(name = "home", value = {"", "/"})
 public class HomeServlet extends HttpServlet {
 
-    private ItemHandler itemHandler = new ItemHandler();
+    private ItemController itemController = new ItemController();
     public void init() {
     }
 
@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/")){
-            List<ItemDTO> items = itemHandler.getAllItems();
+            List<ItemDTO> items = itemController.getAllItems();
             if (items != null){
                 request.setAttribute("items", items);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");

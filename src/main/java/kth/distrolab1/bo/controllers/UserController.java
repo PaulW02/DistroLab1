@@ -1,4 +1,4 @@
-package kth.distrolab1.bo.handlers;
+package kth.distrolab1.bo.controllers;
 
 import kth.distrolab1.bo.entities.User;
 import kth.distrolab1.bo.services.UserService;
@@ -8,7 +8,7 @@ import kth.distrolab1.ui.dtos.UserDTO;
 import java.util.Date;
 import java.util.List;
 
-public class UserHandler {
+public class UserController {
     private UserService userService = new UserServiceImpl();
 
     public UserDTO login(String username, String password) {

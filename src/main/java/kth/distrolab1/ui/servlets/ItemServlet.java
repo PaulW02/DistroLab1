@@ -1,6 +1,6 @@
 package kth.distrolab1.ui.servlets;
 
-import kth.distrolab1.bo.handlers.ItemHandler;
+import kth.distrolab1.bo.controllers.ItemController;
 import kth.distrolab1.ui.dtos.ItemDTO;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +17,7 @@ import java.util.List;
 @WebServlet(name = "item", value = "/item/*")
 public class ItemServlet extends HttpServlet {
 
-    private ItemHandler itemHandler = new ItemHandler();
+    private ItemController itemController = new ItemController();
     public void init() {
     }
 
@@ -25,7 +25,7 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/create")){
-            ItemDTO itemDTO = itemHandler.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Integer.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")));
+            ItemDTO itemDTO = itemController.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Integer.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")));
             if (itemDTO != null){
                 response.sendRedirect("http://localhost:8080/adminPanel.jsp");
             }else{
@@ -40,7 +40,7 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/all")){
-            List<ItemDTO> items = itemHandler.getAllItems();
+            List<ItemDTO> items = itemController.getAllItems();
             if (items != null){
                 request.setAttribute("items", items);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/items.jsp");
@@ -61,7 +61,7 @@ public class ItemServlet extends HttpServlet {
                 int itemId = Integer.parseInt(id);
 
                 // Use itemId to retrieve the specific item
-                ItemDTO item = itemHandler.getItemById(itemId);
+                ItemDTO item = itemController.getItemById(itemId);
                 if (item != null) {
                     request.setAttribute("item", item);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/item.jsp");

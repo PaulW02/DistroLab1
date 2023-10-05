@@ -1,5 +1,5 @@
 package kth.distrolab1.ui.servlets;
-import kth.distrolab1.bo.handlers.ItemHandler;
+import kth.distrolab1.bo.controllers.ItemController;
 import kth.distrolab1.ui.dtos.ItemDTO;
 
 import javax.servlet.ServletException;
@@ -11,12 +11,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListResourceBundle;
 
 @WebServlet(name = "shopping_bag", value = "/shoppingbag/*")
 public class ShoppingBagServlet extends HttpServlet{
 
-    private ItemHandler itemHandler = new ItemHandler();
+    private ItemController itemController = new ItemController();
     public void init() {
     }
 
