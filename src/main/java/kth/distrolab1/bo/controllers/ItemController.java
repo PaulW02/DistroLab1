@@ -18,17 +18,27 @@ public class ItemController {
         List<Item> items = itemService.searchItems(item);
         ArrayList<ItemDTO> itemDTOS = new ArrayList<>();
         for (Item currentItem: items) {
-            itemDTOS.add(new ItemDTO(currentItem.getId(), currentItem.getItemName(), currentItem.getDesc(), currentItem.getCategory(), currentItem.getPrice(), currentItem.getQuantity()));
+            itemDTOS.add(new ItemDTO(currentItem.getId(), currentItem.getItemName(), currentItem.getDesc(), currentItem.getCategory(), currentItem.getPrice(), currentItem.getQuantity(), currentItem.getImageData()));
         }
         return itemDTOS;
     }
 
-    public ItemDTO createItem(String itemName, String desc, String category, int price, int quantity){
+    public ItemDTO createItem(String itemName, String desc, String category, double price, int quantity, byte[] imagePath){
         Item item;
         if (itemName != null && desc != null && price != -1 && quantity != -1){
-            item = itemService.createItem(itemName, desc, category, price, quantity);
+            item = itemService.createItem(itemName, desc, category, price, quantity, imagePath);
             if (item != null){
-                return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity());
+                return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData());
+            }
+        }
+        return null;
+    }
+    public ItemDTO editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imagePath){
+        Item item;
+        if (itemName != null && desc != null && price != -1 && quantity != -1){
+            item = itemService.editItem(itemId, itemName, desc, category, price, quantity, imagePath);
+            if (item != null){
+                return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData());
             }
         }
         return null;
@@ -38,7 +48,7 @@ public class ItemController {
         List<Item> items = itemService.getAllItems();
         List<ItemDTO> itemDTOs = new ArrayList<>();
         for (Item item: items) {
-            itemDTOs.add(new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity()));
+            itemDTOs.add(new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData()));
         }
         return itemDTOs;
     }
@@ -46,7 +56,7 @@ public class ItemController {
     public ItemDTO getItemById(int itemId) {
         Item item = itemService.getItemById(itemId);
         if (item != null) {
-            return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity());
+            return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData());
         }
         return null;
     }

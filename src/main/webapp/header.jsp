@@ -132,7 +132,7 @@
     </nav>
     <div>
         <% if (userDTO != null && userDTO.getRoles() != null && userDTO.getRoles().contains("role_admin")) {%>
-            <a href="adminPanel.jsp" class="btn">Only For Admins</a>
+            <a href="http://localhost:8080/item/admin" class="btn">Only For Admins</a>
         <%}%>
         <% if (userDTO == null) {%>
             <a href="login.jsp" class="btn">Login</a>

@@ -25,13 +25,32 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/create")){
-            ItemDTO itemDTO = itemController.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Integer.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")));
+            ItemDTO itemDTO = itemController.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Double.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")), request.getParameter("imagePath").getBytes());
             if (itemDTO != null){
-                response.sendRedirect("http://localhost:8080/adminPanel.jsp");
+                response.sendRedirect(request.getHeader("Referer"));
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
                 //response.sendRedirect("http://localhost:8080/login.jsp");
+            }
+        }
+        else if(pathInfo.equals("/edit")){
+            int itemId = Integer.valueOf(request.getParameter("item")); // Get itemId from request
+            ItemDTO itemDTO = itemController.getItemById(itemId);
+
+            String itemName = request.getParameter("editItemName").length() > 0 ? request.getParameter("editItemName") : itemDTO.getItemName();
+            String description = request.getParameter("editItemDescription").length() > 0 ? request.getParameter("editItemDescription") : itemDTO.getDesc();
+            String category = request.getParameter("editItemCategory").length() > 0 ? request.getParameter("editItemCategory") : itemDTO.getCategory();
+            double price = request.getParameter("editItemPrice").length() > 0 ? Double.parseDouble(request.getParameter("editItemPrice")) : itemDTO.getPrice();
+            int quantity = request.getParameter("editItemQuantity").length() > 0 ? Integer.parseInt(request.getParameter("editItemQuantity")) : itemDTO.getQuantity();;
+            byte[] imagePath = request.getParameter("editItemImage").length() > 0 ? request.getParameter("editItemImage").getBytes() :  itemDTO.getImageData();
+
+            ItemDTO updatedItemDTO = itemController.editItem(itemId, itemName, description, category, price, quantity, imagePath);
+            if (updatedItemDTO != null){
+                response.sendRedirect(request.getHeader("Referer"));
+            }else{
+                String errorMessage = "Could not create item!";
+                request.setAttribute("errorMessage", errorMessage);
             }
         }
     }
@@ -39,12 +58,17 @@ public class ItemServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/all")){
+        if (pathInfo.equals("/all") || pathInfo.equals("/admin")){
             List<ItemDTO> items = itemController.getAllItems();
             if (items != null){
                 request.setAttribute("items", items);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/items.jsp");
-                requestDispatcher.forward(request, response);
+                if (pathInfo.equals("/all")) {
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/items.jsp");
+                    requestDispatcher.forward(request, response);
+                }else{
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/adminPanel.jsp");
+                    requestDispatcher.forward(request, response);
+                }
                 //response.sendRedirect("http://localhost:8080/index.jsp");
             }else{
                 String errorMessage = "Could not create item!";

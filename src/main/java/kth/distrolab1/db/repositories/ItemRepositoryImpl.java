@@ -23,9 +23,10 @@ public class ItemRepositoryImpl implements ItemRepository {
                 String name = rs.getString("name");
                 String desc = rs.getString("description");
                 String category = rs.getString("category");
-                int price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 int quantity = rs.getInt("quantity");
-                items.add(new Item(i, name, desc, category, price, quantity));
+                byte[] imageData = rs.getBytes("imageData");
+                items.add(new Item(i, name, desc, category, price, quantity, imageData));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,14 +35,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Item createItem(String itemName, String description, String category, int price, int quantity) {
+    public Item createItem(String itemName, String description, String category, double price, int quantity, byte[] imageData) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet generatedKeys;
         try {
             connection = DBManager.getConnection();
 
-            String sql = "INSERT INTO items (item_name, description, category, price, quantity) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO items (item_name, description, category, price, quantity, image_data) VALUES (?, ?, ?, ?, ?, ?)";
 
             // Create a PreparedStatement with the SQL query
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -51,8 +52,9 @@ public class ItemRepositoryImpl implements ItemRepository {
             preparedStatement.setString(1, itemName);
             preparedStatement.setString(2, description);
             preparedStatement.setString(3, category);
-            preparedStatement.setInt(4, price);
+            preparedStatement.setDouble(4, price);
             preparedStatement.setInt(5, quantity);
+            preparedStatement.setBytes(6, imageData);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected <= 0) {
@@ -69,7 +71,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
 
             // User was successfully created with assigned roles
-            return new Item(itemId, itemName, description, category, price, quantity);
+            return new Item(itemId, itemName, description, category, price, quantity, imageData);
         } catch (SQLException e) {
             e.printStackTrace(); // Handle any SQL errors
             throw new RuntimeException(e);
@@ -85,6 +87,56 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         }
     }
+
+    @Override
+    public Item editItem(int itemId, String itemName, String description, String category, double price, int quantity, byte[] imageData) {
+        Connection connection;
+        PreparedStatement preparedStatement = null;
+        PreparedStatement selectStatement;
+        ResultSet resultSet;
+
+        try {
+            connection = DBManager.getConnection();
+
+            String sql = "UPDATE items SET item_name  = ?, description = ?, category = ?, price = ?, quantity = ?, image_data = ? WHERE id = ?";
+
+            // Create a PreparedStatement with the SQL query
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set the values for the placeholders in the query
+            preparedStatement.setString(1, itemName);
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, category);
+            preparedStatement.setDouble(4, price);
+            preparedStatement.setInt(5, quantity);
+            preparedStatement.setBytes(6, imageData);
+            preparedStatement.setInt(7, itemId);  // Set the ID for the WHERE clause
+
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Check if any rows were affected (item was updated)
+            if (rowsAffected > 0) {
+                return new Item(itemId, itemName, description, category, price, quantity, imageData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle any SQL errors
+            throw new RuntimeException(e);
+        } finally {
+            // Close the PreparedStatement (connection should not be closed here if it's shared)
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
+    }
+
+
 
     public List<Item> findAllItems() {
         List<Item> itemList = new ArrayList<>();
@@ -102,11 +154,12 @@ public class ItemRepositoryImpl implements ItemRepository {
                 String itemName = resultSet.getString("item_name");
                 String description = resultSet.getString("description");
                 String category = resultSet.getString("category");
-                int price = resultSet.getInt("price");
+                double price = resultSet.getDouble("price");
                 int quantity = resultSet.getInt("quantity");
+                byte[] imageData = resultSet.getBytes("image_data");
 
                 // Create an Item object for each row and add it to the itemList
-                Item item = new Item(itemId, itemName, description, category, price, quantity);
+                Item item = new Item(itemId, itemName, description, category, price, quantity, imageData);
                 itemList.add(item);
             }
 
@@ -156,11 +209,12 @@ public class ItemRepositoryImpl implements ItemRepository {
                 String itemName = resultSet.getString("item_name");
                 String description = resultSet.getString("description");
                 String category = resultSet.getString("category");
-                int price = resultSet.getInt("price");
+                double price = resultSet.getDouble("price");
                 int quantity = resultSet.getInt("quantity");
+                byte[] imageData = resultSet.getBytes("image_data");
 
                 // Skapa ett Item-objekt med de hämtade uppgifterna
-                return new Item(itemId, itemName, description, category, price, quantity);
+                return new Item(itemId, itemName, description, category, price, quantity, imageData);
             }else{
                 return null;
             }

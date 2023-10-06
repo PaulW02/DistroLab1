@@ -39,10 +39,11 @@ public class ShoppingBagServlet extends HttpServlet{
             String itemName = request.getParameter("itemName");
             String itemDesc = request.getParameter("itemDesc");
             String itemCategory = request.getParameter("itemCategory");
-            int itemPrice = Integer.valueOf(request.getParameter("itemPrice"));
+            double itemPrice = Double.valueOf(request.getParameter("itemPrice"));
             int itemQuantity = Integer.valueOf(request.getParameter("itemQuantity"));
+            byte[] itemImage = request.getParameter("itemImage").getBytes();
 
-            shoppingBagController.addToShoppingBag(session, new ItemDTO(itemId, itemName, itemDesc, itemCategory, itemPrice, itemQuantity));
+            shoppingBagController.addToShoppingBag(session, new ItemDTO(itemId, itemName, itemDesc, itemCategory, itemPrice, itemQuantity, itemImage));
 
             response.sendRedirect(request.getHeader("Referer"));
 

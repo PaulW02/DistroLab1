@@ -5,16 +5,18 @@ public class Item {
     private String itemName;
     private String desc;
     private String category;
-    private int price;
+    private double price;
     private int quantity;
+    private byte[] imageData;
 
-    public Item(int id, String itemName, String desc, String category, int price, int quantity) {
+    public Item(int id, String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
         this.id = id;
         this.itemName = itemName;
         this.desc = desc;
         this.category = category;
         this.price = price;
         this.quantity = quantity;
+        this.imageData = imageData;
     }
 
     public int getId() {
@@ -49,11 +51,11 @@ public class Item {
         this.category = category;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -63,5 +65,13 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 }
