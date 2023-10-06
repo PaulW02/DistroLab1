@@ -34,12 +34,14 @@
         <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
         <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
         <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
+        <input type="hidden" name="itemImageData" value="<%= item.getImageData() %>">
         <div class="item-container">
             <div class="item-name"><a href="item/<%= item.getId() %>"><%= item.getItemName() %></a></div>
             <div class="item-description"><%= item.getDesc() %></div>
             <div class="item-category"><%= item.getCategory() %></div>
             <div class="item-price">Price: <%= item.getPrice() %> kr</div>
             <div class="item-quantity">antal: <%= item.getQuantity() %></div>
+            <div class="item-imageData"><%= item.getImageData() %></div>
             <input type="submit" class="add-to-basket-button" value="Add to Basket">
         </div>
     </form

@@ -45,7 +45,7 @@
 </form>
 
 <h1>Add item</h1>
-<form action="item/create" method="post">
+<form action="/item/create" method="post" enctype="multipart/form-data">
     <label for="category">Category:</label>
     <select id="category" name="category" required>
         <option value="Clothes">Clothes</option>
@@ -68,6 +68,10 @@
 
     <label for="quantity">Quantity:</label>
     <input type="number" id="quantity" name="quantity" required>
+    <br><br>
+
+    <label for="itemImage">Item Image:</label>
+    <input type="file" id="itemImage" name="itemImage">
     <br><br>
 
     <input type="submit" value="Create Item">
@@ -118,6 +122,10 @@
 
     <label for="editItemQuantity">Quantity:</label>
     <input type="number" id="editItemQuantity" name="editItemQuantity">
+    <br><br>
+
+    <label for="editItemImage">Edit Item Image:</label>
+    <input type="file" id="editItemImage" name="editItemImage">
     <br><br>
 
     <input type="submit" value="Edit Item">

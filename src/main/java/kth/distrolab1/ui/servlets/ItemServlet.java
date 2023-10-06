@@ -3,6 +3,10 @@ package kth.distrolab1.ui.servlets;
 import kth.distrolab1.bo.controllers.ItemController;
 import kth.distrolab1.ui.dtos.ItemDTO;
 
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
+
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
 @WebServlet(name = "item", value = "/item/*")
+@MultipartConfig
 public class ItemServlet extends HttpServlet {
 
     private ItemController itemController = new ItemController();
@@ -24,8 +30,13 @@ public class ItemServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
+
         if (pathInfo.equals("/create")){
-            ItemDTO itemDTO = itemController.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Double.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")), request.getParameter("imagePath").getBytes());
+            Part filePart = request.getPart("itemImage"); // Retrieves <input type="file" name="itemImage">
+            InputStream fileContent = filePart.getInputStream();
+            byte[] imageData = new byte[(int) filePart.getSize()];
+            fileContent.read(imageData);
+            ItemDTO itemDTO = itemController.createItem(request.getParameter("itemName"), request.getParameter("desc"), request.getParameter("category"), Double.valueOf(request.getParameter("price")), Integer.valueOf(request.getParameter("quantity")), imageData);
             if (itemDTO != null){
                 response.sendRedirect(request.getHeader("Referer"));
             }else{
@@ -37,22 +48,31 @@ public class ItemServlet extends HttpServlet {
         else if(pathInfo.equals("/edit")){
             int itemId = Integer.valueOf(request.getParameter("item")); // Get itemId from request
             ItemDTO itemDTO = itemController.getItemById(itemId);
+            Part filePart = request.getPart("editItemImageData");
+            byte[] imageData = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                InputStream fileContent = filePart.getInputStream();
+                imageData = new byte[(int) filePart.getSize()];
+                fileContent.read(imageData);
+            } else {
+                imageData = itemDTO.getImageData(); // Use the existing image data if no new file is uploaded
+            }
 
             String itemName = request.getParameter("editItemName").length() > 0 ? request.getParameter("editItemName") : itemDTO.getItemName();
             String description = request.getParameter("editItemDescription").length() > 0 ? request.getParameter("editItemDescription") : itemDTO.getDesc();
             String category = request.getParameter("editItemCategory").length() > 0 ? request.getParameter("editItemCategory") : itemDTO.getCategory();
             double price = request.getParameter("editItemPrice").length() > 0 ? Double.parseDouble(request.getParameter("editItemPrice")) : itemDTO.getPrice();
-            int quantity = request.getParameter("editItemQuantity").length() > 0 ? Integer.parseInt(request.getParameter("editItemQuantity")) : itemDTO.getQuantity();;
-            byte[] imagePath = request.getParameter("editItemImage").length() > 0 ? request.getParameter("editItemImage").getBytes() :  itemDTO.getImageData();
+            int quantity = request.getParameter("editItemQuantity").length() > 0 ? Integer.parseInt(request.getParameter("editItemQuantity")) : itemDTO.getQuantity();
 
-            ItemDTO updatedItemDTO = itemController.editItem(itemId, itemName, description, category, price, quantity, imagePath);
+            ItemDTO updatedItemDTO = itemController.editItem(itemId, itemName, description, category, price, quantity, imageData);
             if (updatedItemDTO != null){
                 response.sendRedirect(request.getHeader("Referer"));
-            }else{
+            } else {
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
             }
         }
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="kth.distrolab1.ui.servlets.ItemServlet" %>
 <%@ page import="kth.distrolab1.bo.entities.Item" %>
+<%@ page import="java.util.Base64" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -34,6 +35,7 @@
             <div class="item-category"><%= item.getCategory() %></div>
             <div class="item-price">Price: <%= item.getPrice() %> kr</div>
             <div class="item-quantity">antal: <%= item.getQuantity() %></div>
+            <img src="data:image/png;base64,<%= item.getImageData() %>" alt="Item Image" />
         </div>
         <%}%>
 

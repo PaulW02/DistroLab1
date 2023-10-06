@@ -53,6 +53,7 @@
             <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
             <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
             <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
+            <input type="hidden" name="itemItem" value="<%= item.getQuantity() %>">
             <div class="item-container">
                 <div class="item-name"><a href="item/<%= item.getId() %>"><%= item.getItemName() %></a></div>
                 <div class="item-description"><%= item.getDesc() %></div>

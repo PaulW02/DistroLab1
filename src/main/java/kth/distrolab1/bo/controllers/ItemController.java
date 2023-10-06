@@ -8,6 +8,7 @@ import kth.distrolab1.ui.servlets.UserServlet;
 import kth.distrolab1.ui.dtos.ItemDTO;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class ItemController {
@@ -23,20 +24,25 @@ public class ItemController {
         return itemDTOS;
     }
 
-    public ItemDTO createItem(String itemName, String desc, String category, double price, int quantity, byte[] imagePath){
+    public ItemDTO createItem(String itemName, String desc, String category, double price, int quantity, byte[] imageData){
+        String base64Image = Base64.getEncoder().encodeToString(imageData);
         Item item;
         if (itemName != null && desc != null && price != -1 && quantity != -1){
-            item = itemService.createItem(itemName, desc, category, price, quantity, imagePath);
+            item = itemService.createItem(itemName, desc, category, price, quantity, imageData);
             if (item != null){
-                return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData());
+                return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), base64Image.getBytes());
             }
         }
         return null;
     }
-    public ItemDTO editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imagePath){
+    public ItemDTO editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imageData){
+        String base64Image = null;
+        if (imageData != null) {
+            base64Image = Base64.getEncoder().encodeToString(imageData);
+        }
         Item item;
         if (itemName != null && desc != null && price != -1 && quantity != -1){
-            item = itemService.editItem(itemId, itemName, desc, category, price, quantity, imagePath);
+            item = itemService.editItem(itemId, itemName, desc, category, price, quantity, imageData);
             if (item != null){
                 return new ItemDTO(item.getId(), item.getItemName(), item.getDesc(), item.getCategory(), item.getPrice(), item.getQuantity(), item.getImageData());
             }
