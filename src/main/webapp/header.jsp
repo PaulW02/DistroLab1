@@ -150,7 +150,7 @@
         <% if (session.getAttribute("shoppingBag") != null){
             for (ItemDTO item : ((List<ItemDTO>) session.getAttribute("shoppingBag"))) { %>
 
-        <form action="/shoppingbag/remove" method="post">
+        <form action="/shoppingbag/remove" method="post" enctype="multipart/form-data">
             <input type="hidden" name="itemId" value="<%= item.getId() %>">
             <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
             <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">

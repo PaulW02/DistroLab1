@@ -78,7 +78,7 @@
 </form>
 
 <h1>Edit Item</h1>
-<form action="/item/edit" method="post">
+<form action="/item/edit" method="post" enctype="multipart/form-data">
     <!-- Select dropdown for item names -->
     <label for="item">Select an Item:</label>
     <select id="item" name="item" required>
@@ -124,8 +124,8 @@
     <input type="number" id="editItemQuantity" name="editItemQuantity">
     <br><br>
 
-    <label for="editItemImage">Edit Item Image:</label>
-    <input type="file" id="editItemImage" name="editItemImage">
+    <label for="editItemImageData">Edit Item Image:</label>
+    <input type="file" id="editItemImageData" name="editItemImageData">
     <br><br>
 
     <input type="submit" value="Edit Item">

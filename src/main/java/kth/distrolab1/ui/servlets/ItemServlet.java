@@ -78,6 +78,7 @@ public class ItemServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
+
         if (pathInfo.equals("/all") || pathInfo.equals("/admin")){
             List<ItemDTO> items = itemController.getAllItems();
             if (items != null){

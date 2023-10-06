@@ -13,14 +13,17 @@
 
             /* Style for individual item boxes */
             .item-container {
-                width: 200px; /* Set the width to control the size of the square */
-                height: 200px; /* Set the height to match the width for a square */
+                width: 200px;
+                height: 200px;
                 padding: 10px;
                 border: 1px solid #000000;
                 margin-bottom: 10px;
-                float: left; /* Float the boxes to align them horizontally */
-                margin-right: 20px; /* Add margin for spacing between boxes */
+                float: left;
+                margin-right: 20px;
+                overflow: hidden; /* Dölj innehåll som går utanför gränsen */
+                position: relative; /* För att positionera knappen i botten */
             }
+
         </style>
 
     </head>
@@ -35,7 +38,7 @@
             <div class="item-category"><%= item.getCategory() %></div>
             <div class="item-price">Price: <%= item.getPrice() %> kr</div>
             <div class="item-quantity">antal: <%= item.getQuantity() %></div>
-            <img src="data:image/png;base64,<%= item.getImageData() %>" alt="Item Image" />
+            <img src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(item.getImageData()) %>" alt="Item Image" />
         </div>
         <%}%>
 

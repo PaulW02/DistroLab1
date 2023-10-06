@@ -14,13 +14,13 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Item createItem(String itemName, String desc, String category, double price, int quantity, byte[] imagePath) {
-        return itemRepository.createItem(itemName, desc, category, price, quantity, imagePath);
+    public Item createItem(String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
+        return itemRepository.createItem(itemName, desc, category, price, quantity, imageData);
     }
 
     @Override
-    public Item editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imagePath) {
-        return itemRepository.editItem(itemId,itemName, desc, category, price, quantity, imagePath);
+    public Item editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
+        return itemRepository.editItem(itemId,itemName, desc, category, price, quantity, imageData);
     }
 
     @Override
