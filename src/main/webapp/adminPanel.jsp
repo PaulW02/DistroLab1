@@ -5,39 +5,50 @@
 <html>
 <head>
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f7f7f7;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column; /* Stack children vertically */
+            align-items: center;
         }
 
-
         .container {
-            max-width: 800px;
-            background-color: #fff;
+            max-width: 1400px; /* Increase the max-width for a wider content */
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
         .admin-form h1 {
             font-size: 24px;
+            margin-top: 20px;
         }
 
         .admin-form label {
             font-weight: bold;
+            width: 150px; /* Fixed width for labels */
+            display: inline-block;
         }
 
         .admin-form select,
         .admin-form input[type="text"],
         .admin-form input[type="password"],
         .admin-form input[type="email"],
+        .admin-form input[type="number"],
         .admin-form textarea {
-            width: 100%;
+            width: 75%;
             padding: 10px;
-            margin-bottom: 10px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -58,15 +69,39 @@
             display: inline-block;
             margin-right: 10px;
         }
+
+        .admin-form .admin-header-button {
+            background-color: #007bff;
+            color: white;
+            padding: 50px 50px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            min-width: 800px;
+        }
+
+        .admin-form .admin-header-button:hover {
+            background-color: #0056b3;
+        }
+        .header {
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 100%;
+        }
     </style>
 </head>
-<jsp:include page="header.jsp" />
+<div class="header" style="width: 100%">
+    <jsp:include page="header.jsp" />
+</div>
 <body>
 <br>
 <br>
 <br>
 <div class="container">
-    <div class="admin-form">
+    <div class="admin-form" style="width: 800px">
         <h1>Register User</h1>
         <form method="post" action="/session/register" onsubmit="prepareRoles()">
             <div class="form-group">
@@ -87,11 +122,13 @@
             </div>
             <div class="form-group">
                 <label for="roles">Roles:</label>
+                <br>
                 <div>
                     <input type="checkbox" class="roles-checkbox" name="roles" value="role_user" id="userRole"> User
                     <input type="checkbox" class="roles-checkbox" name="roles" value="role_employee" id="employeeRole"> Employee
                     <input type="checkbox" class="roles-checkbox" name="roles" value="role_admin" id="adminRole"> Admin
                 </div>
+                <br>
             </div>
             <div class="form-group">
                 <input type="hidden" name="selectedRoles" id="selectedRoles" value="">
@@ -100,7 +137,7 @@
         </form>
     </div>
 
-    <div class="admin-form">
+    <div class="admin-form" style="width: 800px">
         <h1>Add Item</h1>
         <form action="/item/create" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -137,7 +174,7 @@
         </form>
     </div>
 
-    <div class="admin-form">
+    <div class="admin-form" style="width: 800px">
         <h1>Edit Item</h1>
         <form action="/item/edit" method="post" enctype="multipart/form-data">
             <div class="form-group">

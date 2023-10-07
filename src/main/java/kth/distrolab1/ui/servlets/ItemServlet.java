@@ -2,6 +2,7 @@ package kth.distrolab1.ui.servlets;
 
 import kth.distrolab1.bo.controllers.ItemController;
 import kth.distrolab1.ui.dtos.ItemDTO;
+import kth.distrolab1.ui.dtos.UserDTO;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
@@ -86,13 +87,18 @@ public class ItemServlet extends HttpServlet {
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("/items.jsp");
                     requestDispatcher.forward(request, response);
                 }else{
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/adminPanel.jsp");
-                    requestDispatcher.forward(request, response);
+                    UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+                    if (userDTO.getRoles().contains("role_admin")) {
+                        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/adminPanel.jsp");
+                        requestDispatcher.forward(request, response);
+                    }else{
+                        response.sendRedirect("http://localhost:8080/");
+                    }
                 }
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
-                //response.sendRedirect("http://localhost:8080/login.jsp");
+
             }
         }else if (pathInfo != null) {
             // Extract the product ID using a regular expression
