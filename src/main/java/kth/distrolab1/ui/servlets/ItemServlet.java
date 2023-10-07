@@ -42,7 +42,6 @@ public class ItemServlet extends HttpServlet {
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
-                //response.sendRedirect("http://localhost:8080/login.jsp");
             }
         }
         else if(pathInfo.equals("/edit")){
@@ -55,7 +54,7 @@ public class ItemServlet extends HttpServlet {
                 imageData = new byte[(int) filePart.getSize()];
                 fileContent.read(imageData);
             } else {
-                imageData = itemDTO.getImageData(); // Use the existing image data if no new file is uploaded
+                imageData = itemDTO.getImageData().getBytes(); // Use the existing image data if no new file is uploaded
             }
 
             String itemName = request.getParameter("editItemName").length() > 0 ? request.getParameter("editItemName") : itemDTO.getItemName();
@@ -90,7 +89,6 @@ public class ItemServlet extends HttpServlet {
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("/adminPanel.jsp");
                     requestDispatcher.forward(request, response);
                 }
-                //response.sendRedirect("http://localhost:8080/index.jsp");
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);

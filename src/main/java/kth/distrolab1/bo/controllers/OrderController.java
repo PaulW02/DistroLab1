@@ -3,8 +3,7 @@ package kth.distrolab1.bo.controllers;
 
 import kth.distrolab1.bo.services.OrderService;
 import kth.distrolab1.bo.services.OrderServiceImpl;
-import kth.distrolab1.ui.dtos.OrderDTO;
-import kth.distrolab1.ui.dtos.OrderItemDTO;
+import kth.distrolab1.ui.dtos.*;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class OrderController {
 
     private OrderService orderService = new OrderServiceImpl();
 
-    public List<OrderDTO> viewAllOrders() {
+    public OrderStatusDTO viewAllOrders() {
         // Retrieve a list of all orders and pass it to the view
         return orderService.getAllOrders();
     }
@@ -27,28 +26,17 @@ public class OrderController {
     public OrderDTO createOrder(int userId, double amount, List<OrderItemDTO> orderItemDTOS) {
         return orderService.createOrder(userId, amount, orderItemDTOS);
     }
-    /*
-    public String showEditForm(int id) {
-        // Retrieve the order to be edited and display its data in an edit form
-        OrderDTO order = orderService.getOrderById(id);
-        // Return a view for editing the order
-        return "edit-order";
+
+    public void sendOrder(int id){
+        orderService.sendOrder(id);
     }
 
 
-    public String updateOrder(int id, OrderDTO updatedOrder) {
-        // Update the order with the provided data
-        orderService.updateOrder(id, updatedOrder);
-        // Redirect to the list of all orders or a success page
-        return "redirect:/orders/";
-    }
-*/
-
-    public String deleteOrder(int id) {
-        // Delete the order with the specified ID
-        orderService.deleteOrder(id);
-        // Redirect to the list of all orders or a success page
-        return "redirect:/orders/";
+    public OrderDTO processOrder(UserDTO userDTO, List<ItemDTO> shoppingBag) {
+        if (userDTO != null && !shoppingBag.isEmpty()){
+            return orderService.processOrder(userDTO, shoppingBag);
+        }
+        return null;
     }
 }
 

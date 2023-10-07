@@ -13,24 +13,15 @@ public class UserController {
 
     public UserDTO login(String username, String password) {
         if (username != null && password != null) {
-            User user = userService.login(username, password);
-            if (user != null) {
-                return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
-            }
+            return userService.login(username, password);
         }
         return null;
     }
 
     public UserDTO createUser(String username, String password, String email, String fullname, List<String> roles){
-        Date registrationDate = new Date();
-        User user;
-        if (username != null && password != null  && email != null && fullname != null && registrationDate != null){
-            user = userService.createUser(username, password, email, fullname, registrationDate, roles);
-            if (user != null){
-                return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
-            }
+        if (username != null && password != null  && email != null && fullname != null){
+            return userService.createUser(username, password, email, fullname, roles);
         }
         return null;
     }
-
 }

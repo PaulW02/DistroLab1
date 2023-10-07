@@ -6,76 +6,132 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>JSP - Hello World</title>
-        <style>
+<head>
+    <title>JSP - Hello World</title>
+    <style>
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
 
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-            /* Style for individual item boxes */
-            .item-container {
-                width: 200px; /* Set the width to control the size of the square */
-                height: 200px; /* Set the height to match the width for a square */
-                padding: 10px;
-                border: 1px solid #000000;
-                margin-bottom: 10px;
-                float: left; /* Float the boxes to align them horizontally */
-                margin-right: 20px; /* Add margin for spacing between boxes */
-            }
-            .item-image {
-                max-width: 150px;
-                max-height: 60px;
-                display: block;
-                margin: 0 auto;
-                margin-bottom: 10px;
-            }
-            /* Style for the "Add to Basket" button */
-            .add-to-basket-button {
-                display: block;
-                margin-top: 10px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-        </style>
-        <%UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");%>
+        h1 {
+            font-size: 28px;
+            text-align: center;
+        }
 
-    </head>
+        .welcome {
+            font-size: 18px;
+            text-align: center;
+        }
 
-    <jsp:include page="header.jsp" />
+        /* Style for individual item boxes */
+        .item-container {
+            width: 220px;
+            height: 260px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            margin: 10px;
+            text-align: center;
+        }
 
-        <h1>
-            Welcome <% if (userDTO != null && userDTO.getFullname() != null){ %> <%= userDTO.getFullname() %> <% } else { %> stranger <%}%>
-        </h1>
-        <br/>
+        .item-container-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
 
-        <% if (request.getAttribute("items") != null) {%>
-        <%List<ItemDTO> items = ((List<ItemDTO>) request.getAttribute("items"));%>
-        <%for (ItemDTO item : items) {%>
-        <!-- Container for each item -->
-    <form action="/shoppingbag/add" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="itemId" value="<%= item.getId() %>">
-            <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
-            <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">
-            <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
-            <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
-            <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
-            <input type="hidden" name="itemItem" value="<%= item.getQuantity() %>">
-            <input type="hidden" name="itemImageData" value="<%= item.getImageData() %>">
-            <div class="item-container">
-                <div class="item-name"><a href="item/<%= item.getId() %>"><%= item.getItemName() %></a></div>
-                <div class="item-description"><%= item.getDesc() %></div>
-                <div class="item-category"><%= item.getCategory() %></div>
-                <div class="item-price">Price: <%= item.getPrice() %> kr</div>
-                <% if(item.getImageData() != null){%>
-                <img class="item-image" src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(item.getImageData()) %>" alt="Item Image" />
-                <%}%>
-                <input type="submit" class="add-to-basket-button" value="Add to Basket">
+        .item-image {
+            max-width: 150px;
+            max-height: 150px;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            font-weight: bold;
+        }
+
+        .item-description {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .item-category {
+            font-style: italic;
+            color: #555;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Style for the "Add to Basket" button */
+        .add-to-basket-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+    <% UserDTO userDTO = (UserDTO) session.getAttribute("userDTO"); %>
+</head>
+<jsp:include page="header.jsp" />
+<body>
+<div class="container">
+    <h1>Welcome to the Store</h1>
+    <div class="welcome">
+        Welcome
+        <% if (userDTO != null && userDTO.getFullname() != null) { %>
+        <%= userDTO.getFullname() %>
+        <% } else { %>
+        stranger
+        <% } %>
+    </div>
+    <div class="item-container-wrapper">
+        <% if (request.getAttribute("items") != null) { %>
+        <% List<ItemDTO> items = ((List<ItemDTO>) request.getAttribute("items")); %>
+        <% for (ItemDTO item : items) { %>
+        <div class="item-container">
+            <div class="item-name">
+                <a href="item/<%= item.getId() %>"><%= item.getItemName() %></a>
             </div>
-        </form>
-        <% }
-        } %>
-
-    </body>
+            <div class="item-description"><%= item.getDesc() %></div>
+            <div class="item-category"><%= item.getCategory() %></div>
+            <div class="item-price">Price: <%= item.getPrice() %> kr</div>
+            <% if (item.getImageData() != null) { %>
+            <img class="item-image"
+                 src="data:image/jpeg;base64,<%=item.getImageData() %>"
+                 alt="Item Image" />
+            <% } %>
+            <form action="/shoppingbag/add" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="itemId" value="<%= item.getId() %>">
+                <input type="hidden" name="itemName" value="<%= item.getItemName() %>">
+                <input type="hidden" name="itemDesc" value="<%= item.getDesc() %>">
+                <input type="hidden" name="itemCategory" value="<%= item.getCategory() %>">
+                <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
+                <input type="hidden" name="itemQuantity" value="<%= item.getQuantity() %>">
+                <input type="hidden" name="itemItem" value="<%= item.getQuantity() %>">
+                <input type="hidden" name="itemImageData" value="<%= item.getImageData() %>">
+                <input type="submit" class="add-to-basket-button" value="Add to Basket">
+            </form>
+        </div>
+        <% } %>
+        <% } %>
+    </div>
+</div>
+</body>
 </html>

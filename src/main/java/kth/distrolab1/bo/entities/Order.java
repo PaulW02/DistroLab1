@@ -10,13 +10,17 @@ public class Order {
     private Date purchaseDate;
     private double amount;
     private List<OrderItem> itemsBought;
+    private boolean orderSent;
 
-    public Order(int orderId, int userId, Date purchaseDate, double amount, List<OrderItem> itemsBought) {
+
+
+    public Order(int orderId, int userId, Date purchaseDate, double amount, List<OrderItem> itemsBought, boolean orderSent) {
         this.orderId = orderId;
         this.userId = userId;
         this.purchaseDate = purchaseDate;
         this.amount = amount;
         this.itemsBought = itemsBought;
+        this.orderSent = orderSent;
     }
 
     public Order() {
@@ -61,5 +65,13 @@ public class Order {
 
     public void setItemsBought(List<OrderItem> itemsBought) {
         this.itemsBought = itemsBought;
+    }
+
+    public boolean isOrderSent() {
+        return orderSent;
+    }
+
+    public void setOrderSent(boolean orderSent) {
+        this.orderSent = orderSent;
     }
 }

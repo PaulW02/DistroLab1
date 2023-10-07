@@ -34,11 +34,9 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("items", items);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(request, response);
-                //response.sendRedirect("http://localhost:8080/index.jsp");
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
-                //response.sendRedirect("http://localhost:8080/login.jsp");
             }
         }
     }

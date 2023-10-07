@@ -14,6 +14,11 @@
             margin: 0;
             padding: 0;
         }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
         h1 {
             text-align: center;
             background-color: #007bff;
@@ -50,9 +55,11 @@
         }
     </style>
 </head>
-<body>
+
 <jsp:include page="header.jsp" />
 <!-- Include your header content here -->
+<body>
+<div class="container">
 <h1>Your Order</h1>
 <%OrderDTO orderDTO = (OrderDTO) request.getAttribute("orderDTO");%>
 <section class="checkout-summary">
@@ -78,5 +85,6 @@
     </table>
     <h3>Total price: <%=orderDTO.getAmount()%></h3>
 </section>
+</div>
 </body>
 </html>

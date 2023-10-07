@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @MultipartConfig
@@ -47,8 +48,9 @@ public class ShoppingBagServlet extends HttpServlet{
             String itemCategory = request.getParameter("itemCategory");
             double itemPrice = Double.valueOf(request.getParameter("itemPrice"));
             int itemQuantity = Integer.valueOf(request.getParameter("itemQuantity"));
+            String itemImageData = request.getParameter("itemImageData");
 
-            shoppingBagController.addToShoppingBag(session, new ItemDTO(itemId, itemName, itemDesc, itemCategory, itemPrice, itemQuantity, itemImage));
+            shoppingBagController.addToShoppingBag(session, new ItemDTO(itemId, itemName, itemDesc, itemCategory, itemPrice, itemQuantity, itemImageData));
 
             response.sendRedirect(request.getHeader("Referer"));
 

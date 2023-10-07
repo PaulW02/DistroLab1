@@ -1,6 +1,7 @@
 package kth.distrolab1.db.repositories;
 
 import kth.distrolab1.bo.entities.Order;
+import kth.distrolab1.ui.dtos.OrderDTO;
 
 import java.util.List;
 
@@ -21,5 +22,7 @@ public interface OrderRepository {
     void deleteOrder(int orderId);
 
     // Retrieve all orders (for admin or reporting purposes)
-    List<Order> findAllOrder();
+    List<Order> findAllOrders();
+
+    void sendOrder(int orderId);
 }

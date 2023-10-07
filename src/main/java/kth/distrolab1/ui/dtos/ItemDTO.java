@@ -9,9 +9,9 @@ public class ItemDTO {
     private int quantity;
 
     private String category;
-    private byte[] imageData;
+    private String imageData;
 
-    public ItemDTO(int id, String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
+    public ItemDTO(int id, String itemName, String desc, String category, double price, int quantity, String imageData) {
         this.id = id;
         this.itemName = itemName;
         this.desc = desc;
@@ -65,11 +65,11 @@ public class ItemDTO {
 
     public void setCategory(String category) {this.category = category;}
 
-    public byte[] getImageData() {
+    public String getImageData() {
         return imageData;
     }
 
-    public void setImageData(byte[] imageData) {
+    public void setImageData(String imageData) {
         this.imageData = imageData;
     }
 

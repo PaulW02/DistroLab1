@@ -3,6 +3,7 @@ package kth.distrolab1.bo.services;
 import kth.distrolab1.bo.entities.User;
 import kth.distrolab1.db.repositories.UserRepository;
 import kth.distrolab1.db.repositories.UserRepositoryImpl;
+import kth.distrolab1.ui.dtos.UserDTO;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,18 +15,32 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository = new UserRepositoryImpl();
 
     @Override
-    public User login(String username, String password) {
-        String encryptedPassword = encrypt(password);
-        return userRepository.findByUsernameAndPassword(username, encryptedPassword);
+    public UserDTO login(String username, String password) {
+        if (username != null && password != null) {
+            String encryptedPassword = encrypt(password);
+            User user = userRepository.findByUsernameAndPassword(username, encryptedPassword);
+            if (user != null) {
+                return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
+            }
+        }
+        return null;
     }
 
     @Override
-    public User createUser(String username, String password, String fullname, String email, Date registrationDate, List<String> roles) {
+    public UserDTO createUser(String username, String password, String fullname, String email, List<String> roles) {
         String encryptedPassword = encrypt(password);
-        if (roles.isEmpty()){
-            roles.add("role_user");
+        Date registrationDate = new Date();
+        User user;
+        if (username != null && password != null  && email != null && fullname != null && registrationDate != null){
+            if (roles.isEmpty()){
+                roles.add("role_user");
+            }
+            user = userRepository.createUser(username,encryptedPassword,fullname,email,registrationDate, roles);
+            if (user != null){
+                return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles());
+            }
         }
-        return userRepository.createUser(username,encryptedPassword,fullname,email,registrationDate, roles);
+        return null;
     }
 
     public static String encrypt(String input) {

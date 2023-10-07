@@ -4,8 +4,10 @@ package kth.distrolab1.db.repositories;
 import kth.distrolab1.bo.entities.Order;
 import kth.distrolab1.bo.entities.OrderItem;
 import kth.distrolab1.db.DBManager;
+import kth.distrolab1.ui.dtos.OrderDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderRepositoryImpl implements OrderRepository {
@@ -22,11 +24,12 @@ public class OrderRepositoryImpl implements OrderRepository {
             con.setAutoCommit(false);  // Start an order
 
             // Insert the user into the 'users' table
-            String orderQuery = "INSERT INTO orders (user_id, purchase_date, amount) VALUES (?, ?, ?)";
+            String orderQuery = "INSERT INTO orders (user_id, purchase_date, amount, order_sent) VALUES (?, ?, ?, ?)";
             orderInsertStatement = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
             orderInsertStatement.setInt(1, order.getUserId());
             orderInsertStatement.setDate(2, new java.sql.Date(order.getPurchaseDate().getTime()));
             orderInsertStatement.setDouble(3, order.getAmount());
+            orderInsertStatement.setBoolean(4, false);
 
             int rowsAffected = orderInsertStatement.executeUpdate();
 
@@ -121,7 +124,99 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> findAllOrder() {
-        return null;
+    public List<Order> findAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        Connection connection;
+        PreparedStatement orderStatement = null;
+        PreparedStatement itemStatement = null;
+        ResultSet orderResultSet;
+        ResultSet itemResultSet;
+
+        try {
+            connection = DBManager.getConnection();
+
+            // Define a query to retrieve all orders
+            String orderQuery = "SELECT * FROM orders";
+            orderStatement = connection.prepareStatement(orderQuery);
+            orderResultSet = orderStatement.executeQuery();
+
+            while (orderResultSet.next()) {
+                int orderId = orderResultSet.getInt("order_id");
+                int userId = orderResultSet.getInt("user_id");
+                Date purchaseDate = orderResultSet.getDate("purchase_date");
+                double amount = orderResultSet.getDouble("amount");
+                boolean orderSent = orderResultSet.getBoolean("order_sent");
+
+                Order order = new Order();
+                order.setOrderId(orderId);
+                order.setUserId(userId);
+                order.setPurchaseDate(purchaseDate);
+                order.setAmount(amount);
+                order.setOrderSent(orderSent);
+                order.setItemsBought(new ArrayList<>());
+
+                // Define a query to retrieve items for the current order
+                String itemQuery = "SELECT * FROM items_in_order WHERE order_id = ?";
+                itemStatement = connection.prepareStatement(itemQuery);
+                itemStatement.setInt(1, orderId);
+                itemResultSet = itemStatement.executeQuery();
+
+                while (itemResultSet.next()) {
+                    int orderItemId = itemResultSet.getInt("order_item_id");
+                    int itemId = itemResultSet.getInt("item_id");
+                    String itemName = itemResultSet.getString("item_name");
+                    int quantity = itemResultSet.getInt("quantity");
+                    double totalPrice = itemResultSet.getDouble("total_price");
+
+                    // Create an OrderItem and add it to the current order's itemsBought list
+                    OrderItem orderItem = new OrderItem(orderItemId, orderId, itemId, itemName, quantity, totalPrice);
+                    order.getItemsBought().add(orderItem);
+                }
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }finally {
+            try {
+                if (orderStatement != null) {
+                    orderStatement.close();
+                }
+                if (itemStatement != null) {
+                    itemStatement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return orders;
+    }
+
+
+    @Override
+    public void sendOrder(int orderId) {
+        PreparedStatement preparedStatement = null;
+        try {
+            Connection connection = DBManager.getConnection();
+            preparedStatement = connection.prepareStatement(
+                    "UPDATE orders SET order_sent = ? WHERE order_id = ?");
+            preparedStatement.setBoolean(1, true); // Set orderSent to true
+            preparedStatement.setInt(2, orderId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update orderSent");
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -1,15 +1,16 @@
 package kth.distrolab1.bo.services;
 
 import kth.distrolab1.bo.entities.Item;
+import kth.distrolab1.ui.dtos.ItemDTO;
 
 import java.util.List;
 
 public interface ItemService {
-    List<Item> searchItems(String item);
+    List<ItemDTO> searchItems(String item);
 
-    Item createItem(String itemName, String desc, String category, double price, int quantity, byte[] imageData);
-    Item editItem(int itemId,String itemName, String desc, String category, double price, int quantity, byte[] imageData);
-    List<Item> getAllItems();
+    ItemDTO createItem(String itemName, String desc, String category, double price, int quantity, byte[] imageData);
+    ItemDTO editItem(int itemId,String itemName, String desc, String category, double price, int quantity, byte[] imageData);
+    List<ItemDTO> getAllItems();
 
-    Item getItemById(int itemId);
+    ItemDTO getItemById(int itemId);
 }

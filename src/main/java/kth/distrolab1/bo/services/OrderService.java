@@ -1,7 +1,6 @@
 package kth.distrolab1.bo.services;
 
-import kth.distrolab1.ui.dtos.OrderDTO;
-import kth.distrolab1.ui.dtos.OrderItemDTO;
+import kth.distrolab1.ui.dtos.*;
 
 import java.util.List;
 public interface OrderService {
@@ -11,18 +10,12 @@ public interface OrderService {
     // Retrieve a order by its ID
     OrderDTO getOrderById(int orderId);
 
-    // Retrieve all orders for a specific user
-    List<OrderDTO> getOrdersForUser(int userId);
-
-    // Update an existing order
-
-    OrderDTO updateOrder(int orderId, OrderDTO orderDTO);
-
-    // Delete a order by its ID
-    void deleteOrder(int orderId);
+    void sendOrder(int orderId);
 
     // Retrieve all orders (for admin or reporting purposes)
-    List<OrderDTO> getAllOrders();
+    OrderStatusDTO getAllOrders();
+
+    OrderDTO processOrder(UserDTO userDTO, List<ItemDTO> itemDTOS);
 
 }
 

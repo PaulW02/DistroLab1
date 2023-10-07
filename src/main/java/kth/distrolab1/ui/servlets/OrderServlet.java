@@ -36,48 +36,32 @@ public class OrderServlet extends HttpServlet{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
 
-        if(pathInfo.equals("/purchase")){
-            UserDTO userDTO = ((UserDTO) session.getAttribute("userDTO"));
+        if (pathInfo.equals("/purchase")) {
+            UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+
             if (userDTO != null) {
                 List<ItemDTO> shoppingBag = (List<ItemDTO>) session.getAttribute("shoppingBag");
-                session.setAttribute("shoppingBag", new ArrayList<>());
-                List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
-                double totalPrice = 0;
-                for (ItemDTO shoppingBagItem : shoppingBag) {
-                    // Check if an item with the same ID exists in orderItemDTOs
-                    boolean itemExists = false;
-                    totalPrice += shoppingBagItem.getPrice();
-                    for (OrderItemDTO orderItemDTO : orderItemDTOS) {
-                        if (orderItemDTO.getItemId() == shoppingBagItem.getId()) {
-                            // Item with the same ID exists, increase the quantity
-                            orderItemDTO.setItemName(shoppingBagItem.getItemName());
-                            orderItemDTO.setQuantity(orderItemDTO.getQuantity() + 1);
-                            orderItemDTO.setTotalPrice(orderItemDTO.getTotalPrice() + shoppingBagItem.getPrice());
-                            itemExists = true;
-                            break;
-                        }
-                    }
 
-                    if (!itemExists) {
-                        // Item with the same ID does not exist, add a new item
-                        OrderItemDTO newOrderItemDTO = new OrderItemDTO();
-                        newOrderItemDTO.setItemId(shoppingBagItem.getId());
-                        newOrderItemDTO.setItemName(shoppingBagItem.getItemName());
-                        newOrderItemDTO.setQuantity(1); // Initialize with quantity 1
-                        newOrderItemDTO.setTotalPrice(shoppingBagItem.getPrice());
-                        orderItemDTOS.add(newOrderItemDTO);
-                    }
-                }
-                if (totalPrice > 0) {
-                    OrderDTO orderDTO = orderController.createOrder(userDTO.getId(), totalPrice, orderItemDTOS);
+                // Call the service to process the order
+                OrderDTO orderDTO = orderController.processOrder(userDTO, shoppingBag);
+
+                if (orderDTO != null) {
                     request.setAttribute("orderDTO", orderDTO);
+                    session.setAttribute("shoppingBag", new ArrayList<>());
                     request.getRequestDispatcher("/order.jsp").forward(request, response);
-                }else{
-                    response.sendRedirect("http://localhost:8080/index.jsp");
+                } else {
+                    response.sendRedirect("http://localhost:8080/");
                 }
-            }else {
+            } else {
                 response.sendRedirect(request.getHeader("Referer"));
             }
+        }else if(pathInfo.equals("/send")){
+            String orderId = request.getParameter("orderId");
+            if (orderId != null){
+                orderController.sendOrder(Integer.valueOf(orderId));
+            }
+            response.sendRedirect("http://localhost:8080/employee/");
+
         }
     }
 
