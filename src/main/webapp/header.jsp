@@ -141,6 +141,11 @@
             color: red;
             font-weight: bold;
         }
+
+        .logo {
+            width: 200px;
+            height: auto;
+        }
     </style>
 </head>
 <%UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");%>
@@ -153,8 +158,9 @@
 %>
 <body>
 <header>
-    <img src="http://localhost:8080/webapp/resources/Innovania-2.png"
-         alt="Your Logo">
+
+    <img src="/resources/Innovania-white.png"
+         alt="Your Logo" class="logo">
     <nav>
         <ul>
             <li><a href="http://localhost:8080/">Home</a></li>
