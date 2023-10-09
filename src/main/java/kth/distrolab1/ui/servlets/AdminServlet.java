@@ -1,30 +1,27 @@
 package kth.distrolab1.ui.servlets;
 
 import kth.distrolab1.bo.controllers.ItemController;
+import kth.distrolab1.bo.controllers.UserController;
 import kth.distrolab1.ui.dtos.ItemDTO;
 import kth.distrolab1.ui.dtos.UserDTO;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Part;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 
-@WebServlet(name = "item", value = "/item/*")
+@WebServlet(name = "admin", value = "/admin/*")
 @MultipartConfig
-public class ItemServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
     private ItemController itemController = new ItemController();
+    private UserController userController = new UserController();
+
     public void init() {
     }
 
@@ -80,46 +77,24 @@ public class ItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
 
-        if (pathInfo.equals("/all")){
+        if (pathInfo == null){
+            response.sendRedirect("http://localhost:8080/");
+        }else if (pathInfo.equals("/") && session.getAttribute("userDTO") != null && ((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_admin")){
             List<ItemDTO> items = itemController.getAllItems();
-            if (items != null){
+            List<UserDTO> users = userController.getAllUsers();
+            if (items != null && users != null){
                 request.setAttribute("items", items);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/items.jsp");
+                request.setAttribute("users", users);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/adminPanel.jsp");
                 requestDispatcher.forward(request, response);
             }else{
                 String errorMessage = "Could not create item!";
                 request.setAttribute("errorMessage", errorMessage);
-
-            }
-        }else if (pathInfo != null) {
-            // Extract the product ID using a regular expression
-            // This regex captures a sequence of one or more digits
-            String id = pathInfo.replaceAll(".*/(\\d+)", "$1");
-
-            // Check if id is a valid integer (you can add more validation as needed)
-            if (id.matches("\\d+")) {
-                int itemId = Integer.parseInt(id);
-
-                // Use itemId to retrieve the specific item
-                ItemDTO item = itemController.getItemById(itemId);
-                if (item != null) {
-                    request.setAttribute("item", item);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/item.jsp");
-                    dispatcher.forward(request, response);
-                } else {
-                    String errorMessage = "Could not find the specified item!";
-                    request.setAttribute("errorMessage", errorMessage);
-                    // Handle the error or redirect as needed
-                    response.sendRedirect("http://localhost:8080/");
-
-                }
-            } else {
-                // Handle the case where the ID is not a valid integer
-                String errorMessage = "Invalid product ID!";
-                request.setAttribute("errorMessage", errorMessage);
-                // Handle the error or redirect as needed
                 response.sendRedirect("http://localhost:8080/");
+
             }
+        }else{
+            response.sendRedirect("http://localhost:8080/");
         }
     }
 

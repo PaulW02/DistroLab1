@@ -11,4 +11,8 @@ public interface UserRepository {
     User findByUsernameAndPassword(String username, String password);
     User createUser(String username, String password, String email, String fullname, Date registrationDate, List<String> roles);
     Role findRoleByRoleName(String roleName);
+
+    boolean deleteUserById(int userId);
+
+    List<User> getAllUsers();
 }

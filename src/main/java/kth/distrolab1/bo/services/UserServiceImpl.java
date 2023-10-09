@@ -7,7 +7,9 @@ import kth.distrolab1.ui.dtos.UserDTO;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
@@ -41,6 +43,21 @@ public class UserServiceImpl implements UserService{
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean deleteUser(int userId) {
+        return userRepository.deleteUserById(userId);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<UserDTO> userDTOS = new ArrayList<>();
+        List<User> users = userRepository.getAllUsers();
+        for (User user: users) {
+            userDTOS.add(new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), user.getRoles()));
+        }
+        return userDTOS;
     }
 
     public static String encrypt(String input) {

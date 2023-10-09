@@ -1,7 +1,12 @@
 <%@ page import="kth.distrolab1.ui.dtos.ItemDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="kth.distrolab1.ui.dtos.UserDTO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
+<%if (session.getAttribute("userDTO") == null || !((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_admin")) {
+    response.sendRedirect("http://localhost:8080/");
+}
+%>
 <html>
 <head>
     <title>Admin Panel</title>
@@ -103,7 +108,7 @@
 <div class="container">
     <div class="admin-form" style="width: 800px">
         <h1>Register User</h1>
-        <form method="post" action="/session/register" onsubmit="prepareRoles()">
+        <form method="post" action="/user/register" onsubmit="prepareRoles()">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" name="username" required>
@@ -133,6 +138,29 @@
             <div class="form-group">
                 <input type="hidden" name="selectedRoles" id="selectedRoles" value="">
                 <input type="submit" class="btn btn-primary" value="Register">
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-form" style="width: 800px">
+        <h1>Delete User</h1>
+        <form action="/user/delete" method="post">
+            <div class="form-group">
+                <label for="userToDelete">Select a User to Delete:</label>
+                <select class="form-control" id="userToDelete" name="userToDelete" required>
+                    <option value="">Select a user</option>
+                    <%
+                        // Fetch a list of users and iterate to populate the dropdown
+                        if (request.getAttribute("users") != null){
+                            List<UserDTO> users = (List<UserDTO>) request.getAttribute("users");
+                            for (UserDTO user : users) { %>
+                    <option value="<%= user.getId() %>"><%= user.getUsername() %></option>
+                    <% } %>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-danger" value="Delete User">
             </div>
         </form>
     </div>

@@ -7,7 +7,9 @@ import kth.distrolab1.db.DBManager;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserRepositoryImpl implements UserRepository{
 
@@ -153,4 +155,93 @@ public class UserRepositoryImpl implements UserRepository{
         return role;
     }
 
+    @Override
+    public boolean deleteUserById(int userId) {
+        String userDeleteQuery = "DELETE FROM users WHERE id = ?";
+        String userRolesDeleteQuery = "DELETE FROM user_roles WHERE user_id = ?";
+        Connection connection = null;
+
+        try {
+            connection = DBManager.getConnection();
+            connection.setAutoCommit(false); // Start a transaction
+            PreparedStatement userRolesDeleteStatement = connection.prepareStatement(userRolesDeleteQuery);
+            userRolesDeleteStatement.setInt(1, userId);
+            userRolesDeleteStatement.executeUpdate();
+            // Delete user
+            PreparedStatement userDeleteStatement = connection.prepareStatement(userDeleteQuery);
+            userDeleteStatement.setInt(1, userId);
+            userDeleteStatement.executeUpdate();
+
+            // Delete user roles
+
+
+            connection.commit(); // Commit the transaction
+            return true; // Deletion was successful
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Roll back the transaction if an error occurs
+                } catch (SQLException rollbackException) {
+                    rollbackException.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+            return false; // Deletion failed
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true); // Restore auto-commit mode
+                    connection.close();
+                } catch (SQLException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Map<Integer, User> userMap = new HashMap<>();
+        User user;
+
+        try (Connection connection = DBManager.getConnection()) {
+            String query = "SELECT u.id, u.username, u.password, u.email, u.full_name, u.registration_date, r.role_name " +
+                    "FROM users u " +
+                    "LEFT JOIN user_roles ur ON u.id = ur.user_id " +
+                    "LEFT JOIN roles r ON ur.role_id = r.role_id";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet rs = preparedStatement.executeQuery()) {
+
+                while (rs.next()) {
+                    int userId = rs.getInt("id");
+
+                    // Find or create the user
+                    user = userMap.get(userId);
+                    if (user == null) {
+                        String foundUsername = rs.getString("username");
+                        String foundPassword = rs.getString("password");
+                        String email = rs.getString("email");
+                        String fullName = rs.getString("full_name");
+                        Date registrationDate = rs.getDate("registration_date");
+
+                        user = new User(userId, foundUsername, foundPassword, email, fullName, registrationDate, new ArrayList<>());
+                        userMap.put(userId, user);
+                    }
+
+                    String roleName = rs.getString("role_name");
+                    if (roleName != null) {
+                        user.getRoles().add(roleName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+// Convert the map values to a list of users
+        List<User> users = new ArrayList<>(userMap.values());
+        return users;
+    }
 }

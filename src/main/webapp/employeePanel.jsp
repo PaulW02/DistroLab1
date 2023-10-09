@@ -1,9 +1,14 @@
 <%@ page import="kth.distrolab1.ui.dtos.OrderDTO" %>
 <%@ page import="kth.distrolab1.ui.dtos.OrderStatusDTO" %>
 <%@ page import="kth.distrolab1.ui.dtos.OrderItemDTO" %>
+<%@ page import="kth.distrolab1.ui.dtos.UserDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
+<%if (session.getAttribute("userDTO") == null || !((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_employee")) {
+    response.sendRedirect("http://localhost:8080/");
+}
+%>
 <head>
     <title>Employee Panel</title>
     <style>

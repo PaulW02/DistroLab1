@@ -10,4 +10,8 @@ public interface UserService {
 
     UserDTO login(String username, String password);
     UserDTO createUser(String username, String password, String fullname, String email, List<String> roles);
+
+    boolean deleteUser(int userId);
+
+    List<UserDTO> getAllUsers();
 }

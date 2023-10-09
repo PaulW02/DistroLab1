@@ -1,7 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-
+<%if (session.getAttribute("userDTO") != null) {
+    response.sendRedirect("http://localhost:8080/");
+}
+%>
 <head>
     <title>Login</title>
 
@@ -78,7 +81,7 @@
 <div class="container">
 
     <h1>Login</h1>
-    <form class="login-form" method="post" action="session/login">
+    <form class="login-form" method="post" action="user/login">
         <input type="text" name="uname" placeholder="User Name">
         <input type="password" name="pass" placeholder="Password">
         <input type="submit" value="Login">

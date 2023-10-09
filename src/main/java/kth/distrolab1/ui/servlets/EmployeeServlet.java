@@ -24,10 +24,14 @@ public class EmployeeServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/")){
+        if (pathInfo == null){
+            response.sendRedirect("http://localhost:8080/");
+        }else if (pathInfo.equals("/") && session.getAttribute("userDTO") != null && ((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_employee")){
             OrderStatusDTO orderStatusDTO = orderController.viewAllOrders();
             request.setAttribute("orderStatusDTO", orderStatusDTO);
             request.getRequestDispatcher("/employeePanel.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("http://localhost:8080/");
         }
     }
 
@@ -35,13 +39,15 @@ public class EmployeeServlet extends HttpServlet{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
 
-        if(pathInfo.equals("/send")){
+        if(pathInfo.equals("/send") && session.getAttribute("userDTO") != null && ((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_employee")){
             String orderId = request.getParameter("orderId");
             if (orderId != null){
                 orderController.sendOrder(Integer.valueOf(orderId));
             }
             response.sendRedirect("http://localhost:8080/employee/");
 
+        }else{
+            response.sendRedirect("http://localhost:8080/employee/");
         }
     }
 

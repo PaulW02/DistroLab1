@@ -166,7 +166,7 @@
             <li><a href="http://localhost:8080/">Home</a></li>
             <li><a href="http://localhost:8080/item/all">Products</a></li>
             <% if (userDTO != null && userDTO.getRoles() != null && userDTO.getRoles().contains("role_admin")) { %>
-            <li><a href="http://localhost:8080/item/admin">Admin Panel</a></li>
+            <li><a href="http://localhost:8080/admin/">Admin Panel</a></li>
             <% } %>
             <% if (userDTO != null && userDTO.getRoles() != null && userDTO.getRoles().contains("role_employee")) { %>
             <li><a href="/employee/">Employee Panel</a></li>

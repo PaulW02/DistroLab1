@@ -107,7 +107,6 @@
                     <div class="item-description"><%= item.getDesc() %></div>
                     <div class="item-category"><%= item.getCategory() %></div>
                     <div class="item-price">Price: <%= item.getPrice() %> kr</div>
-                    <div class="item-quantity">antal: <%= item.getQuantity() %></div>
                     <% if(item.getImageData() != null){%>
                     <img class="item-image" src="data:image/jpeg;base64,<%= item.getImageData() %>" alt="Item Image" />
                     <%}%>

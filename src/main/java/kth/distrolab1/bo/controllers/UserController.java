@@ -24,4 +24,15 @@ public class UserController {
         }
         return null;
     }
+
+    public boolean deleteUser(int userId) {
+        if (userId > 0){
+            return userService.deleteUser(userId);
+        }
+        return false;
+    }
+
+    public List<UserDTO> getAllUsers(){
+        return userService.getAllUsers();
+    }
 }

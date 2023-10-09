@@ -55,13 +55,15 @@ public class OrderServlet extends HttpServlet{
             } else {
                 response.sendRedirect(request.getHeader("Referer"));
             }
-        }else if(pathInfo.equals("/send")){
+        }else if(pathInfo.equals("/send") && ((UserDTO) session.getAttribute("userDTO")).getRoles().contains("role_employee")){
             String orderId = request.getParameter("orderId");
             if (orderId != null){
                 orderController.sendOrder(Integer.valueOf(orderId));
             }
             response.sendRedirect("http://localhost:8080/employee/");
 
+        }else{
+            response.sendRedirect("http://localhost:8080/");
         }
     }
 
