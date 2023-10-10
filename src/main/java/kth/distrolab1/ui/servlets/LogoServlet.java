@@ -15,7 +15,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-
+/**
+ * Servlet responsible for serving the logo image.
+ * This servlet provides an endpoint to fetch the Innovania logo in PNG format.
+ */
 @WebServlet(name = "image", value = "/resources/*")
 public class LogoServlet extends HttpServlet {
 
@@ -26,6 +29,15 @@ public class LogoServlet extends HttpServlet {
 
     }
 
+    /**
+     * Handles GET requests to the logo servlet.
+     * This method serves the Innovania logo in PNG format.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("image/png");
 

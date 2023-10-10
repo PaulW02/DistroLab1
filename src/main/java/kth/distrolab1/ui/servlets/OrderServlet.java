@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Servlet responsible for handling order-related operations.
+ * This servlet provides endpoints to view and process orders.
+ */
 @WebServlet(name = "order", value = "/order/*")
 public class OrderServlet extends HttpServlet{
 
@@ -24,6 +28,15 @@ public class OrderServlet extends HttpServlet{
         orderController = new OrderController();
     }
 
+    /**
+     * Handles GET requests to the order servlet.
+     * This method retrieves the shopping bag from the session and forwards the request to the index page.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
@@ -32,6 +45,16 @@ public class OrderServlet extends HttpServlet{
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
+    /**
+     * Handles POST requests to the order servlet.
+     * This method processes the order based on the provided path info.
+     * It supports operations like purchasing items and sending orders.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();

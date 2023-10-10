@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Servlet responsible for handling user session-related operations.
+ * This servlet provides endpoints for user login, registration, and logout functionalities.
+ */
 @WebServlet(name = "session", value = "/session/*")
 public class SessionServlet extends HttpServlet {
 
@@ -22,13 +25,21 @@ public class SessionServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
 
+    /**
+     * Handles GET requests to the session servlet.
+     * This method processes user logout based on the provided path info.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/logout")) {
-            // Stäng av sessionen och logga ut användaren
             session.invalidate();
-            response.sendRedirect("http://localhost:8080/"); // Du kan omdirigera användaren till inloggningssidan eller någon annan sida efter utloggningen.
+            response.sendRedirect("http://localhost:8080/");
         }
 
     }

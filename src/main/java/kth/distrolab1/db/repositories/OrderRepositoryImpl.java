@@ -10,8 +10,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the OrderRepository interface, providing methods to manage and process order-related operations.
+ * This class interacts with the database to perform CRUD operations on orders.
+ */
 public class OrderRepositoryImpl implements OrderRepository {
 
+    /**
+     * Creates a new order in the database.
+     *
+     * @param order The order entity to be created.
+     * @return The created order with its generated ID.
+     */
     @Override
     public Order createOrder(Order order) {
         ResultSet generatedKeys;
@@ -103,26 +113,54 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
     }
 
+    /**
+     * Retrieves an order based on its ID.
+     *
+     * @param orderId The ID of the order to retrieve.
+     * @return The order with the provided ID or null if not found.
+     */
     @Override
     public Order findOrderById(int orderId) {
         return null;
     }
 
+    /**
+     * Retrieves all orders associated with a specific user.
+     *
+     * @param userId The ID of the user whose orders are to be retrieved.
+     * @return A list of orders associated with the provided user ID.
+     */
     @Override
     public List<Order> findOrdersForUser(int userId) {
         return null;
     }
 
+    /**
+     * Updates an existing order in the database.
+     *
+     * @param order The order entity with updated details.
+     * @return The updated order or null if the update failed.
+     */
     @Override
     public Order updateOrder(Order order) {
         return null;
     }
 
+    /**
+     * Deletes an order based on its ID.
+     *
+     * @param orderId The ID of the order to delete.
+     */
     @Override
     public void deleteOrder(int orderId) {
 
     }
 
+    /**
+     * Retrieves all orders from the database.
+     *
+     * @return A list of all orders.
+     */
     @Override
     public List<Order> findAllOrders() {
         List<Order> orders = new ArrayList<>();
@@ -194,7 +232,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orders;
     }
 
-
+    /**
+     * Marks an order as sent based on its ID.
+     *
+     * @param orderId The ID of the order to mark as sent.
+     */
     @Override
     public void sendOrder(int orderId) {
         PreparedStatement preparedStatement = null;

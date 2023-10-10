@@ -11,8 +11,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of the UserRepository interface, providing methods to manage and process user-related operations.
+ * This class interacts with the database to perform CRUD operations on users and roles.
+ */
 public class UserRepositoryImpl implements UserRepository{
 
+    /**
+     * Retrieves a user from the database based on the provided username and password.
+     *
+     * @param username The username of the user to retrieve.
+     * @param password The password of the user to retrieve.
+     * @return The user with the provided username and password or null if not found.
+     */
     public User findByUsernameAndPassword(String username, String password) {
         User user = null;
         try {
@@ -58,6 +69,17 @@ public class UserRepositoryImpl implements UserRepository{
         return user;
     }
 
+    /**
+     * Creates a new user in the database.
+     *
+     * @param username The username of the user to create.
+     * @param password The password of the user to create.
+     * @param email The email of the user to create.
+     * @param fullname The full name of the user to create.
+     * @param registrationDate The registration date of the user to create.
+     * @param roles The roles associated with the user.
+     * @return The created user with its generated ID.
+     */
     public User createUser(String username, String password, String email, String fullname, java.util.Date registrationDate, List<String> roles) {
         ResultSet generatedKeys;
         PreparedStatement userInsertStatement = null;
@@ -126,6 +148,12 @@ public class UserRepositoryImpl implements UserRepository{
         }
     }
 
+    /**
+     * Retrieves a role from the database based on its name.
+     *
+     * @param roleName The name of the role to retrieve.
+     * @return The role with the provided name or null if not found.
+     */
     @Override
     public Role findRoleByRoleName(String roleName) {
         Role role = null;

@@ -9,8 +9,19 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * Implementation of the ItemService interface, providing methods to manage and process items.
+ * This class interacts with the ItemRepository to perform CRUD operations on items.
+ */
 public class ItemServiceImpl implements ItemService{
     private ItemRepository itemRepository = new ItemRepositoryImpl();
+
+    /**
+     * Searches for items based on the provided item name or part of the name.
+     *
+     * @param item The name or part of the name of the item to search for.
+     * @return A list of ItemDTO that matches the search string.
+     */
     @Override
     public List<ItemDTO> searchItems(String item) {
         List<Item> items = itemRepository.searchItems(item);
@@ -21,6 +32,17 @@ public class ItemServiceImpl implements ItemService{
         return itemDTOS;
     }
 
+    /**
+     * Creates a new item with the provided details.
+     *
+     * @param itemName The name of the item.
+     * @param desc The description of the item.
+     * @param category The category of the item.
+     * @param price The price of the item.
+     * @param quantity The available quantity of the item.
+     * @param imageData The image data for the item.
+     * @return The created ItemDTO or null if creation failed.
+     */
     @Override
     public ItemDTO createItem(String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
         String base64Image = Base64.getEncoder().encodeToString(imageData);
@@ -34,6 +56,18 @@ public class ItemServiceImpl implements ItemService{
         return null;
     }
 
+    /**
+     * Edits an existing item with the provided details.
+     *
+     * @param itemId The ID of the item to edit.
+     * @param itemName The new name of the item.
+     * @param desc The new description of the item.
+     * @param category The new category of the item.
+     * @param price The new price of the item.
+     * @param quantity The new available quantity of the item.
+     * @param imageData The new image data for the item.
+     * @return The edited ItemDTO or null if editing failed.
+     */
     @Override
     public ItemDTO editItem(int itemId, String itemName, String desc, String category, double price, int quantity, byte[] imageData) {
         String base64Image = null;
@@ -50,6 +84,11 @@ public class ItemServiceImpl implements ItemService{
         return null;
     }
 
+    /**
+     * Retrieves all items that have a quantity greater than zero.
+     *
+     * @return A list of all available ItemDTO.
+     */
     @Override
     public List<ItemDTO> getAllItems() {
         List<Item> items = itemRepository.findAllItems();
@@ -62,6 +101,12 @@ public class ItemServiceImpl implements ItemService{
         return itemDTOs;
     }
 
+    /**
+     * Retrieves an item based on its ID.
+     *
+     * @param itemId The ID of the item to retrieve.
+     * @return The ItemDTO corresponding to the provided ID or null if not found.
+     */
     @Override
     public ItemDTO getItemById(int itemId) {
         Item item = itemRepository.findItemById(itemId);

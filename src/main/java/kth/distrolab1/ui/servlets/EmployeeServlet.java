@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Servlet handling employee-related operations.
+ * This servlet provides endpoints for viewing and managing orders from an employee's perspective.
+ */
 @WebServlet(name = "employee", value = "/employee/*")
 public class EmployeeServlet extends HttpServlet{
 
@@ -21,6 +25,15 @@ public class EmployeeServlet extends HttpServlet{
         orderController = new OrderController();
     }
 
+    /**
+     * Handles GET requests to the employee servlet.
+     * This method is responsible for displaying the employee panel with a list of all orders.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
@@ -35,6 +48,15 @@ public class EmployeeServlet extends HttpServlet{
         }
     }
 
+    /**
+     * Handles POST requests to the employee servlet.
+     * This method is responsible for processing actions like sending orders.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();

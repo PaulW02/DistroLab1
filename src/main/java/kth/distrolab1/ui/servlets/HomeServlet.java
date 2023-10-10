@@ -13,7 +13,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * Servlet responsible for handling operations related to the home page.
+ * This servlet provides endpoints for displaying items on the home page.
+ */
 @WebServlet(name = "home", value = {"", "/"})
 public class HomeServlet extends HttpServlet {
 
@@ -25,6 +28,15 @@ public class HomeServlet extends HttpServlet {
 
     }
 
+    /**
+     * Handles GET requests to the home servlet.
+     * This method is responsible for displaying items on the home page.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();

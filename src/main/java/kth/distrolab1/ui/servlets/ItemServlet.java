@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-
+/**
+ * Servlet responsible for handling operations related to items.
+ * This servlet provides endpoints for creating, editing, and viewing items.
+ */
 @WebServlet(name = "item", value = "/item/*")
 @MultipartConfig
 public class ItemServlet extends HttpServlet {
@@ -28,6 +31,15 @@ public class ItemServlet extends HttpServlet {
     public void init() {
     }
 
+    /**
+     * Handles POST requests to the item servlet.
+     * This method is responsible for creating and editing items.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
@@ -76,6 +88,15 @@ public class ItemServlet extends HttpServlet {
 
     }
 
+    /**
+     * Handles GET requests to the item servlet.
+     * This method is responsible for displaying all items or a specific item based on the request path.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();

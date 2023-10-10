@@ -12,10 +12,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Implementation of the UserService interface, providing methods to manage and process user-related operations.
+ * This class interacts with the UserRepository to perform CRUD operations on users.
+ */
 public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository = new UserRepositoryImpl();
 
+    /**
+     * Authenticates a user based on the provided username and password.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return UserDTO representing the authenticated user or null if authentication failed.
+     */
     @Override
     public UserDTO login(String username, String password) {
         if (username != null && password != null) {
@@ -28,6 +39,16 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+    /**
+     * Creates a new user with the provided details.
+     *
+     * @param username The username of the new user.
+     * @param password The password of the new user.
+     * @param fullname The full name of the new user.
+     * @param email The email address of the new user.
+     * @param roles The roles assigned to the new user.
+     * @return UserDTO representing the created user or null if creation failed.
+     */
     @Override
     public UserDTO createUser(String username, String password, String fullname, String email, List<String> roles) {
         String encryptedPassword = encrypt(password);
@@ -60,6 +81,12 @@ public class UserServiceImpl implements UserService{
         return userDTOS;
     }
 
+    /**
+     * Encrypts the provided input string using the MD5 algorithm.
+     *
+     * @param input The string to be encrypted.
+     * @return The MD5 hash of the input string in hexadecimal format or null if encryption failed.
+     */
     public static String encrypt(String input) {
         try {
             // Create a MessageDigest instance for MD5

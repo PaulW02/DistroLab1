@@ -21,7 +21,7 @@ public class DBManager {
     private DBManager() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "123457");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -30,7 +30,7 @@ public class DBManager {
     public static Connection getConnection() {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "123457");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
         }catch(Exception ex){
             System.out.println(ex.getMessage());
             System.out.println("couldn't connect!");

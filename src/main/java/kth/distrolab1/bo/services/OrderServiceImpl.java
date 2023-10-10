@@ -10,10 +10,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Implementation of the OrderService interface, providing methods to manage and process orders.
+ * This class interacts with the OrderRepository to perform CRUD operations on orders.
+ */
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository = new OrderRepositoryImpl();
 
+    /**
+     * Creates a new order with the provided details.
+     *
+     * @param userId The ID of the user placing the order.
+     * @param totalAmount The total amount of the order.
+     * @param orderItemDTOs List of items included in the order.
+     * @return OrderDTO representing the created order or null if creation failed.
+     */
     @Override
     public OrderDTO createOrder(int userId, double totalAmount, List<OrderItemDTO> orderItemDTOs) {
         // Create a new order entity and set its properties
@@ -57,17 +69,32 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
+    /**
+     * Retrieves an order based on its ID.
+     *
+     * @param orderId The ID of the order to retrieve.
+     * @return OrderDTO corresponding to the provided ID or null if not found.
+     */
     @Override
     public OrderDTO getOrderById(int orderId) {
         return null;
     }
 
+    /**
+     * Sends an order for processing.
+     *
+     * @param orderId The ID of the order to be sent.
+     */
     @Override
     public void sendOrder(int orderId) {
         orderRepository.sendOrder(orderId);
     }
 
+    /**
+     * Retrieves a summary of all orders, categorized into sent and unsent orders.
+     *
+     * @return OrderStatusDTO containing the status of all orders.
+     */
     @Override
     public OrderStatusDTO getAllOrders() {
         List<Order> orders = orderRepository.findAllOrders();
@@ -96,6 +123,13 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * Processes an order based on the user and their shopping bag.
+     *
+     * @param userDTO The user placing the order.
+     * @param shoppingBag List of items the user wishes to order.
+     * @return OrderDTO representing the processed order or null if processing failed.
+     */
     @Override
     public OrderDTO processOrder(UserDTO userDTO, List<ItemDTO> shoppingBag) {
         if (userDTO == null || shoppingBag == null || shoppingBag.isEmpty()) {

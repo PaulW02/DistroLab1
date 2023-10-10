@@ -13,16 +13,33 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * Servlet responsible for handling shopping bag-related operations.
+ * This servlet provides endpoints for adding items to the shopping bag, removing items from the shopping bag, and purchasing items.
+ */
 @MultipartConfig
 @WebServlet(name = "shopping_bag", value = "/shoppingbag/*")
 public class ShoppingBagServlet extends HttpServlet{
 
     private ShoppingBagController shoppingBagController;
 
+
+    /**
+     * Initializes the servlet and the associated ShoppingBagController.
+     */
     public void init() {
         shoppingBagController = new ShoppingBagController();
     }
 
+    /**
+     * Handles GET requests to the shopping bag servlet.
+     * This method retrieves the shopping bag from the session and forwards it to the index.jsp page.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
@@ -31,6 +48,15 @@ public class ShoppingBagServlet extends HttpServlet{
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
+    /**
+     * Handles POST requests to the shopping bag servlet.
+     * This method processes adding items to the shopping bag, removing items from the shopping bag, and purchasing items based on the provided path info.
+     *
+     * @param request  The HttpServletRequest object containing client request data.
+     * @param response The HttpServletResponse object for sending responses to the client.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String pathInfo = request.getPathInfo();
